@@ -1,0 +1,75 @@
+Fertilizer and chemical
+
+
+
+2) No delete on Farmer portal.
+
+3) once for request for estimate has been sent farmer should only be able 
+to view/print not edit.
+
+4) when request for estimate  is saved then edit, delete, 
+
+
+
+purchase order should be generated from request for 
+
+
+
+
+) only address and contact information should be editable in a Purchase order(INLUDE comment box)
+
+
+
+
+
+
+
+6) admin should have the ability to send a survey at their discretion to any given member.
+farmer should get notification and fill survery via email.
+
+
+
+
+
+Purchase order and Request for estimate 
+7) Sort by member
+   sort date 
+    
+Report Section 
+sort date 
+Report section Date Range from x date to x date range 
+
+
+
+Member Module  
+ -John Doe (survey button)
+   mathew james 
+
+
+
+FORMS
+
+-GET RID OF FEED AND SEED FORMS 
+-2) On the fertilizers and chemicals 5 lines down package in quanties of __________|
+
+3) electric/hp and gas/hp take away but add (Diesel/ hp) 
+
+4) Next line put "Is this  new or used (radio button) 
+
+5) cLEAR FORM, SAVE, SUBMIT (Tool tip so that when they hover over any of these buttons
+ 
+Tool tp: clear form - clear form 
+           save   - Save for later use
+           Submit - Send to purchasing 
+
+
+
+THE HARBOR TOUCH 
+
+
+
+
+
+
+
+
