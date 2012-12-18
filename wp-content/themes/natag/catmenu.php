@@ -115,38 +115,22 @@ color: white;*/
 </style>
 <script src="<?php bloginfo('template_directory'); ?>/js/scripts.js"></script>
 <div class="glossymenu">
-<a class="menuitem submenuheader" href="#" headerindex="0h"><span class="accordprefix"></span>Equipment<span class="accordsuffix">
-<img src="<?php  bloginfo('template_directory'); ?>/images/minus.png" class="statusicon"/></span></a>
+<!--<a class="menuitem submenuheader" href="#" headerindex="0h"><span class="accordprefix"></span>Equipment<span class="accordsuffix">
+<img src="<?php  //bloginfo('template_directory'); ?>/images/minus.png" class="statusicon"/></span></a>-->
 
 <div class="submenu" contentindex="0c" style="display: block; ">
-<ul>
+<!--<ul>
 	<li><a href="#">Tractors</a></li>
 	<li><a href="#">Combines</a></li>
 	<li><a href="#">Seeders</a></li>
 	<li><a href="#">Carts</a></li>
 </ul>
-</div>
-<a class="menuitem" href="#">Fertilizers</a>
-<a class="menuitem" href="#">Chemicals</a>
-<a class="menuitem" href="#">Engines</a>
-<a class="menuitem" href="#">Tires and Wheels </a>
-<a class="menuitem" href="#">Electrical </a>
-<a class="menuitem" href="#">Tranks </a>
-<a class="menuitem submenuheader" href="#" headerindex="0h"><span class="accordprefix"></span>Livestock<span class="accordsuffix">
-<img src="<?php  bloginfo('template_directory'); ?>/images/minus.png" class="statusicon" /></span></a>
-<div class="submenu" contentindex="0c" style="display: block; ">
-<ul>
-	<li><a href="#">Tractors</a></li>
-	<li><a href="#">Combines</a></li>
-	<li><a href="#">Seeders</a></li>
-	<li><a href="#">Carts</a></li>
-</ul>
-</div>
-<a class="menuitem" href="#">Dairy</a>
-<a class="menuitem" href="#">Irrigation</a>
-<a class="menuitem" href="#">Electronic</a>
-<a class="menuitem" href="#">Repair/Replacement Parts </a>
-	
+--></div>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=352">Equipment</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=363">Fertilizers/Chemical</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=367">Parts</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=370">Supplies</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=373">Tires</a>
 </div>
 
 
