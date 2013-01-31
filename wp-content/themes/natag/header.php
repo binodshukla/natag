@@ -19,7 +19,88 @@
 <html>
 <head>
 <meta charset="utf-8">
+<title><?php if (is_home()) {
+
+
+
+	echo bloginfo('name');
+
+
+
+} elseif (is_category()) {
+
+
+
+	echo __('Categor&iacute;a ' ); wp_title('&laquo;  ', TRUE, 'right');
+
+
+
+	echo bloginfo('name');
+
+
+
+} elseif (is_tag()) {
+
+
+
+	echo __('Etiqueta '); wp_title('&laquo;  ', TRUE, 'right');
+
+
+
+	echo bloginfo('name');
+
+
+
+} elseif (is_search()) {
+
+
+
+	echo __('Resultados de la b&uacute;squeda');
+
+
+
+	echo the_search_query();
+
+
+
+	echo '&laquo; @ ';
+
+
+
+	echo bloginfo('name');
+
+
+
+} elseif (is_404()) {
+
+
+
+	echo '404 '; wp_title('  ', TRUE, 'right');
+
+
+
+	echo bloginfo('name');
+
+
+
+} else {
+
+
+
+	echo wp_title('  ', TRUE, 'right');
+
+
+
+	echo bloginfo('name');
+
+
+
+} ?></title>
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_url'); ?>" />
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.alerts.js"></script>-->
+<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/functions.js"></script>
 <?php wp_head(); ?>
 </head>
 <body>
@@ -42,7 +123,12 @@
 					<a href="#"><div class="linkedin"></div></a>
 					<a href="#"><div class="facebook"></div></a>
 					<a href="#"><div class="twitter"></div></a>
+                    <?php if ( is_user_logged_in() ) {?>
+					<a href="<?php bloginfo('url');?>/?page_id=140"><div class="member_dash"></div></a>
+                    <?php }else{ ?>
 					<a href="<?php bloginfo('url');?>/?page_id=140"><div class="member_section"></div></a>
+					<a href="<?php bloginfo('url');?>/?page_id=116"><div class="member_join"></div></a>
+					<?php } ?>
 					<?php if(is_front_page()) { ?>
 					<div class="spllinks">
 					<?php } else { ?>

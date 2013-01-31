@@ -14,8 +14,8 @@ get_header(); ?>
 		</div>-->
 		<?php //include("catmenu.php"); ?>
 		 <!--Start Event widget-->
-		 <?php  $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-							query_posts("cat=8&post_type=post&paged=$paged&showposts=5");	?>
+		 <?php  //$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+							//query_posts("cat=8&post_type=post&paged=$paged&showposts=5");	?>
               <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 		      
 		        <?php endwhile; endif;   ?>	 
@@ -52,9 +52,7 @@ get_header(); ?>
 			
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					        	
-							<h3><?php /* Page Title */
-   							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
-<?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>
+							<h3><?php /* Page Title */ the_title(); ?></h3>
   
                               <?php /* Page Image */
 							  $headimg = get_post_meta($post->ID, 'pageimageurl', true); ?>
@@ -66,7 +64,7 @@ get_header(); ?>
 						<?php endif; ?>
 						
 					      <!--  ARTICLE BOX STARTS  -->
-                    	<div class="article_box">
+                    	<!--<div class="article_box">
                         	<h4>Recent Post</h4>
                             <ul>
 							
@@ -96,7 +94,7 @@ get_header(); ?>
 							<?php endwhile; endif; wp_reset_query(); ?>	                                
                             </ul>
                             <div class="clear"></div>
-                        </div>
+                        </div>-->
                     <!--  ARTICLE BOX ENDS  -->	
 						
 		

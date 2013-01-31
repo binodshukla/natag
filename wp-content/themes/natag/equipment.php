@@ -1,4 +1,5 @@
 <?php
+ob_start();
 /**
  * Template Name:Equipment
  * @package WordPress
@@ -8,7 +9,7 @@
 get_header(); 
 
 extract($_POST);
-if($submit == 'Send')
+if($submit == 'Submit')
 {
 	$url = get_option('siteurl');
 	$user_id = get_current_user_id();
@@ -16,7 +17,7 @@ if($submit == 'Send')
 	  'post_title'    => $fname,
 	  'post_name'    => $fname,
 	  'post_content'  => $descpt,
-	  'post_status'   => 'draft',
+	  'post_status'   => 'sent',
 	  'comment_status'=> 'closed',
 	  'post_author'   => $user_id,
 //	  'post_category' => array($brand,$model),
@@ -43,7 +44,7 @@ if($submit == 'Send')
 	$up_post = wp_update_post( $my_post_up );
 
 	add_post_meta($post_id, 'code_number', $cname); 
-	add_post_meta($post_id, 'equip_count', $equip_count); 
+	add_post_meta($post_id, 'quantity', $equip_count); 
 	add_post_meta($post_id, 'brand_preference', $bpreference); 
 	add_post_meta($post_id, 'item_name', $item_name); 
 	add_post_meta($post_id, 'model_name', $model_name); 
@@ -55,14 +56,21 @@ if($submit == 'Send')
 	add_post_meta($post_id, 'diesel', $diesel); 
 	add_post_meta($post_id, 'equip_type', $equip_type); 
 	add_post_meta($post_id, 'add_info', $descpt); 
-	add_post_meta($post_id, 'request', $request); 
 	add_post_meta($post_id, 'local_price', $local_price); 
-	add_post_meta($post_id, 'national_price', $national_price); 
+	add_post_meta($post_id, 'price_quote', $national_price); 
 	add_post_meta($post_id, 'saved_offer', $saved_offer); 
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
+	add_post_meta($post_id, 'request_status', 'pending');
+	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+
+	$to = get_option('admin_email');
+	$subject = "Equipment Request Notification";
+	$message = "You have recieve a new Equipment Request, Please check you Admin";
+	$headers = 'From: National AG';
+	$mail = mail( $to, $subject, $message, $headers);
 	
-	header("Location:".$url."/?page_id=".$page_id);
+	header("Location:".$url."/?page_id=441");
 }
 elseif($submit == 'Save')
 {
@@ -77,7 +85,6 @@ elseif($submit == 'Save')
 	  'post_author'   => $user_id,
 //	  'post_category' => array($brand,$model),
 	  'post_type'     => 'equipment',
-	  'post_author'   => 1,
 	  'post_parent'           => 0,
 	  'menu_order'            => 0,
 	  'to_ping'               => '',
@@ -100,7 +107,7 @@ elseif($submit == 'Save')
 	$up_post = wp_update_post( $my_post_up );
 
 	add_post_meta($post_id, 'code_number', $cname); 
-	add_post_meta($post_id, 'equip_count', $equip_count); 
+	add_post_meta($post_id, 'quantity', $equip_count); 
 	add_post_meta($post_id, 'brand_preference', $bpreference); 
 	add_post_meta($post_id, 'item_name', $item_name); 
 	add_post_meta($post_id, 'model_name', $model_name); 
@@ -112,21 +119,26 @@ elseif($submit == 'Save')
 	add_post_meta($post_id, 'diesel', $diesel); 
 	add_post_meta($post_id, 'equip_type', $equip_type); 
 	add_post_meta($post_id, 'add_info', $descpt); 
-	add_post_meta($post_id, 'request', $request); 
 	add_post_meta($post_id, 'local_price', $local_price); 
-	add_post_meta($post_id, 'national_price', $national_price); 
+	add_post_meta($post_id, 'price_quote', $national_price); 
 	add_post_meta($post_id, 'saved_offer', $saved_offer); 
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
+	add_post_meta($post_id, 'request_date', date('m/d/Y'));
 	
-	header("Location:".$url."/?page_id=".$page_id);
+	header("Location:".$url."/?page_id=506");
 }
 ?>
-
+<script type="text/javascript">
+function confirmSubmit()
+{
+	var con = confirm( 'Are you sure want to submit ?'); 
+}
+</script>
 		<div id="primaryinn">
 		<div id="leftsilde">
 		<div class="cat">
-		<h3>Categories</h3>
+		<h3>Dashboard</h3>
 		</div>
 		<?php include("catmenu.php"); ?>
 		<div class="leftcontact">
@@ -170,8 +182,9 @@ elseif($submit == 'Save')
 						
 					      <!--  ARTICLE BOX STARTS  -->
 	<center>
-    	<form action="" method="post" name="equip">
+    	<form action="" method="post" name="equip" id="equipsubmit">
 	 	<div style="border: 1px dotted #C0C0C0; width: 600px; padding-right: 30px; padding-left: 20px; padding-bottom: 50px;font-family:Arial, Helvetica, sans-serif;font-size:12px;">  
+
             <div style="text-align:left;">
                 <div style="width:91px; float:left;">Your name</div>
                 <div style="width:209px; float:left;">
@@ -179,8 +192,10 @@ elseif($submit == 'Save')
                 <div style="width:125px; float:left;">Your code number </div>
                 <div style="width:165px; float:left;"><input type="text" style="width:170px" name="cname" value="" ></div>
             </div>                                 
+
 			<div style="text-align:left;clear:both;"><br />
 				<strong>I am looking for:</strong></div>
+
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				How Many 
@@ -188,12 +203,14 @@ elseif($submit == 'Save')
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" style="width: 412px" name="equip_count" value="" ></div>
 			</div>
+
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Brand preference (if any) 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" style="width: 410px" name="bpreference" value="" ></div>
 			</div>
+
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Item name   
@@ -201,6 +218,7 @@ elseif($submit == 'Save')
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" style="width: 412px" name="item_name" value="" ></div>
 			</div>
+
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Model name/number  
@@ -208,6 +226,7 @@ elseif($submit == 'Save')
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" style="width: 412px" name="model_name" value="" ></div>
 			</div>
+
 			<div style="text-align:left;">
 				<div style="width:91px; float:left;">Size</div>
 				<div style="width:209px; float:left;">
@@ -215,6 +234,7 @@ elseif($submit == 'Save')
 				<div style="width:125px; float:left;">Capacity</div>
 				<div style="width:165px; float:left;"><input type="text" style="width:170px" name="capacity" value="" ></div>
 			</div>
+
 			<div style="clear:both;">
 				<div style="float:left;">Powered by: PTO/RM  </div>
 				<div style="float:left;">
@@ -229,7 +249,11 @@ elseif($submit == 'Save')
 				<div style="float:left;">
 					<input name="diesel" value="" type="text" style="width: 80px" /></div>
 			</div>
+
+            <div style="clear:both;"></div>
+
 			<div style="width:100%;text-align:left;">Do you want New or Used. <input type="radio" name="equip_type" value="New">New &nbsp; <input type="radio" name="equip_type" value="Used">Used</div>
+
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
 				Additional information or description (if needed)   
@@ -237,27 +261,7 @@ elseif($submit == 'Save')
 				<div style="width:413px; float:left;text-align:right;">
 					<textarea name="descpt" style="width: 410px; height: 67px"></textarea></div>
 			</div>
-			<div style="width:100%;text-align:left;">This is an emergency / routine request. <input type="radio" name="request" value="Emergency">Emergency &nbsp; <input type="radio" name="request" value="Routine">Routine</div>
-			<div>
-					<div>
-				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
-				</div>
-				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="local_price" value="" style="width: 412px" ></div>
-			</div>
-			</div>
-			<div>
-				<div style="float:left;width: 203px; text-align:left;">
-				National Ag Price Quote $ 
-				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
-					<input type="text" style="width: 121px" name="national_price" value="" ></div>
-					<div style="float:left;width: 117px; " class="auto-style2">
-				Savings offered $				</div>
-				<div style="  float:right;text-align:right; width: 138px;" class="auto-style1">
-					<input type="text" style="width: 104px" name="saved_offer" value="" ></div>
-			</div>
+
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
 				Additional information   <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id']?>">
@@ -265,11 +269,33 @@ elseif($submit == 'Save')
 				<div style="width:413px; float:left;text-align:right;">
 					<textarea name="add_info" style="width: 410px; height: 67px"></textarea></div>
 			</div>
+
+			<div>
+				<div style="float:left;width: 184px; text-align:left;">
+				My best local price$   
+				</div>
+				<div style="width:413px; float:left;text-align:right;">
+					<input type="text" name="local_price" value="" style="width: 412px" ></div>
+			</div>
+            <div style="clear:both;"></div>
+
+			<div style="text-align:left;clear:both;">
+				<strong>For official use only:</strong></div>
+            
+
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				National Ag Price Quote $ 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="national_price" value="" ></div>
+			</div>
+
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
-			 For your own information, you should record <br />
+			 <br />For your own information, you should record <br />
 				 the date and time you initiated this inquiry.<br />
 				 <br>
-				 <input type="submit" name="submit" value="Save">&nbsp;<input type="submit" name="submit" value="Send">&nbsp;<input type="reset" name="submit" value="Cancel">
+				 <input type="submit" name="submit" value="Save" class="form-button">&nbsp;<input class="form-button" type="submit" name="submit" value="Submit" onclick="return confirmSubmit();">&nbsp;<input type="reset" name="submit" value="Cancel" class="form-button">
  			 </div>
                     <!--  ARTICLE BOX ENDS  -->	
 		</div>

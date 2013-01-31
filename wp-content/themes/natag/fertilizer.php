@@ -1,4 +1,5 @@
 <?php
+ob_start();
 /**
  * Template Name:Fertilizer
  * @package WordPress
@@ -7,7 +8,7 @@
 
 get_header(); 
 extract($_POST);
-if($submit == 'Send')
+if($submit == 'Submit')
 {
 	$url = get_option('siteurl');
 	$user_id = get_current_user_id();
@@ -15,7 +16,7 @@ if($submit == 'Send')
 	  'post_title'    => $fname,
 	  'post_name'    => $fname,
 	  'post_content'  => $add_descpt,
-	  'post_status'   => 'draft',
+	  'post_status'   => 'sent',
 	  'comment_status'=> 'closed',
 	  'post_author'   => $user_id,
 //	  'post_category' => array($brand,$model),
@@ -44,19 +45,28 @@ if($submit == 'Send')
 	add_post_meta($post_id, 'code_number', $cname); 
 	add_post_meta($post_id, 'looking_for', $fertilizer); 
 	add_post_meta($post_id, 'item_name', $item_name); 
-	add_post_meta($post_id, 'total_amount', $total_amount); 
+	add_post_meta($post_id, 'app_cost', $app_cost);
+	add_post_meta($post_id, 'packaged', $packaged); 
+	add_post_meta($post_id, 'quantity', $total_amount); 
 	add_post_meta($post_id, 'delivery_date', $delivery_date); 
 	add_post_meta($post_id, 'quote_date', $quote_date); 
 	add_post_meta($post_id, 'use_fertilizer', $use_fertilizer); 
 	add_post_meta($post_id, 'add_descpt', $add_descpt); 
-	add_post_meta($post_id, 'request', $request); 
 	add_post_meta($post_id, 'best_price', $best_price); 
-	add_post_meta($post_id, 'quote_price', $quote_price); 
+	add_post_meta($post_id, 'price_quote', $quote_price); 
 	add_post_meta($post_id, 'saving_offer', $saving_offer); 
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
+	add_post_meta($post_id, 'request_status', 'pending');
+	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+
+	$to = get_option('admin_email');
+	$subject = "Fertilizer Request Notification";
+	$message = "You have recieve a new Fertilizer Request, Please check you Admin";
+	$headers = 'From: National AG';
+	$mail = mail( $to, $subject, $message, $headers);
 	
-	header("Location:".$url."/?page_id=".$page_id);
+	header("Location:".$url."/?page_id=441");
 }
 elseif($submit == 'Save')
 {
@@ -95,26 +105,33 @@ elseif($submit == 'Save')
 	add_post_meta($post_id, 'code_number', $cname); 
 	add_post_meta($post_id, 'looking_for', $fertilizer); 
 	add_post_meta($post_id, 'item_name', $item_name); 
-	add_post_meta($post_id, 'total_amount', $total_amount); 
+	add_post_meta($post_id, 'app_cost', $app_cost);
+	add_post_meta($post_id, 'packaged', $packaged); 
+	add_post_meta($post_id, 'quantity', $total_amount); 
 	add_post_meta($post_id, 'delivery_date', $delivery_date); 
 	add_post_meta($post_id, 'quote_date', $quote_date); 
 	add_post_meta($post_id, 'use_fertilizer', $use_fertilizer); 
 	add_post_meta($post_id, 'add_descpt', $add_descpt); 
-	add_post_meta($post_id, 'request', $request); 
 	add_post_meta($post_id, 'best_price', $best_price); 
-	add_post_meta($post_id, 'quote_price', $quote_price); 
+	add_post_meta($post_id, 'price_quote', $quote_price); 
 	add_post_meta($post_id, 'saving_offer', $saving_offer); 
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
+	add_post_meta($post_id, 'request_date', date('m/d/Y'));
 	
-	header("Location:".$url."/?page_id=".$page_id);
+	header("Location:".$url."/?page_id=506");
 }
 ?>
-
+<script type="text/javascript">
+function confirmSubmit()
+{
+	var con = confirm( 'Are you sure want to submit ?'); 
+}
+</script>
 		<div id="primaryinn">
 		<div id="leftsilde">
 		<div class="cat">
-		<h3>Categories</h3>
+		<h3>Dashboard</h3>
 		</div>
 		<?php include("catmenu.php"); ?>
 		<div class="leftcontact">
@@ -199,6 +216,14 @@ elseif($submit == 'Save')
 			</div>
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
+				Packaged in quantities of
+				</div>
+				<div style="width:413px; float:left;text-align:right;">
+					<input type="text" name="packaged" value="" style="width: 412px" ></div>
+
+			</div>
+			<div>
+				<div style="float:left;width: 184px; text-align:left;">
 				Delivery needed by  
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
@@ -222,7 +247,7 @@ elseif($submit == 'Save')
 				<div style="float:left;">How do you use: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bulk    </div>
 				<div style="float:left;">
 					<input name="use_fertilizer" type="radio" value="Bulk" style="width: 65px" /></div>
-				<div style="float:left;">Tanks </div>
+				<div style="float:left;">Need Tanks </div>
 				<div style="float:left;">
 					<input name="use_fertilizer" type="radio" value="Tanks" style="width: 64px" /></div>
 				<div style="float:left;">Applied   </div>
@@ -231,10 +256,14 @@ elseif($submit == 'Save')
 					<div style="float:left;">Other </div>
 				<div style="float:left;">
 					<input name="use_fertilizer" type="radio" value="Other" style="width: 79px" /></div>
+			</div>
 
-
-
-			
+			<div>
+				<div style="float:left;width: 184px; text-align:left;">
+				Cost of application if applicable $ 
+				</div>
+				<div style="width:413px; float:left;text-align:right;">
+					<input type="text" name="app_cost" value="" style="width: 412px" ></div>
 			</div>
 			
 			<div style="clear:both;">
@@ -245,42 +274,6 @@ elseif($submit == 'Save')
 					<textarea name="add_descpt" style="width: 410px; height: 67px"></textarea></div>
 
 			</div>
-			<div style="width:100%;text-align:left;">This is an emergency I routine request. <input type="radio" name="request" value="Emergency">Emergency&nbsp;&nbsp;<input type="radio" name="request" value="Routine">Routine&nbsp;&nbsp; </div>
-			
-			<div>
-				
-					<div>
-				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
-				</div>
-				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="best_price" value="" style="width: 412px" ></div>
-
-			</div>
-
-				
-			
-			</div>
-			
-			
-			
-			<div>
-				<div style="float:left;width: 203px; text-align:left;">
-				National Ag Price Quote $ 
-				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
-					<input type="text" name="quote_price" style="width: 121px" ></div>
-					<div style="float:left;width: 117px; " class="auto-style2">
-				Savings offered $				</div>
-				<div style="  float:right;text-align:right; width: 138px;" class="auto-style1">
-					<input type="text" name="saving_offer" value="" style="width: 104px" ></div>
-
-
-			</div>
-
-			 
-			 
-		
 
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
@@ -290,13 +283,42 @@ elseif($submit == 'Save')
 					<textarea name="add_info" style="width: 410px; height: 67px"></textarea></div>
 
 			</div>
-	 
+			<div>
+            <div>
+				<div style="float:left;width: 184px; text-align:left;">
+				My best local price$   
+				</div>
+				<div style="width:413px; float:left;text-align:right;">
+					<input type="text" name="best_price" value="" style="width: 412px" >
+                </div>
+			</div>
+			</div>
+
+            <div style="clear:both;"></div>
+
+			<div style="text-align:left;clear:both;">
+				<strong>For official use only:</strong></div>
+            
+			
+			
+			
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				National Ag Price Quote $ 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" name="quote_price" style="width: 121px" readonly="readonly" >
+                </div>
+
+
+			</div>
+
 			 
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
 			 For your own information, you should record <br />
 				 the date and time you initiated this inquiry.<br />
 				 <br>
-				 <input type="submit" name="submit" value="Save">&nbsp;<input type="submit" name="submit" value="Send">&nbsp;<input type="reset" name="submit" value="Cancel">
+				 <input type="submit" class="form-button" name="submit" value="Save">&nbsp;<input class="form-button" type="submit" name="submit" value="Submit" onclick="return confirmSubmit();">&nbsp;<input type="reset" class="form-button" name="submit" value="Cancel">
 			 </div>
 			 
 			 

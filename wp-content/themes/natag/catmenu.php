@@ -1,7 +1,8 @@
-<script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
+<!--<script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
+-->
 <script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/js/ddaccordion.js"></script>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 
 ddaccordion.init({
 	headerclass: "submenuheader", //Shared CSS class name of headers group
@@ -28,7 +29,7 @@ ddaccordion.init({
 })
 
 </script>
-<style type="text/css">
+--><style type="text/css">
 .submenu{display: none}
 a.hiddenajaxlink{display: none}
 </style>
@@ -111,8 +112,30 @@ background-position:left center;
 /*background: #DFDCCB;
 color: white;*/
 }
+p { font-size: 1.2em; }
+
+ul li { display: inline; }
+
+.wide {
+	border-bottom: 1px #000 solid;
+	width: 4000px;
+}
+
+.fleft { float: left; margin: 0 20px 0 0; }
+
+.cboth { clear: both; }
+
+#main {
+	background: #fff;
+	margin: 0 auto;
+	padding: 30px;
+	width: 1000px;
+}
 
 </style>
+<script src="<?php bloginfo('template_directory'); ?>/js/jquery-1.6.1.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+<script src="<?php bloginfo('template_directory'); ?>/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?php bloginfo('template_directory'); ?>/js/scripts.js"></script>
 <div class="glossymenu">
 <!--<a class="menuitem submenuheader" href="#" headerindex="0h"><span class="accordprefix"></span>Equipment<span class="accordsuffix">
@@ -126,13 +149,49 @@ color: white;*/
 	<li><a href="#">Carts</a></li>
 </ul>
 --></div>
-<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=352">Equipment</a>
+<!--<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=352">Equipment</a>
 <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=363">Fertilizers/Chemical</a>
 <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=367">Parts</a>
 <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=370">Supplies</a>
-<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=373">Tires</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=373">Tires</a>-->
+<!--<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=354">Equipment</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=356">Fertilizers/Chemical</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=358">Parts</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=360">Supplies</a>
+<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=362">Tires</a>-->
+<ul class="gallery clearfix">
+    <li><a href="#inline_demo" rel="prettyPhoto[inline]">Request for Estimate</a></li>
+</ul>
+<div id="inline_demo" style="display:none;">
+    <p>Request an Estimate for:</p>
+    <p>
+        <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=354">Equipment</a><br />
+		<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=356">Fertilizers/Chemical</a><br />
+        <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=358">Parts</a><br />
+        <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=360">Supplies</a><br />
+		<a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=362">Tires</a>        
+    </p>
+</div>
 </div>
 
+			<script type="text/javascript" charset="utf-8">
+			$(document).ready(function(){
+				$("area[rel^='prettyPhoto']").prettyPhoto();
+				
+				$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:3000, autoplay_slideshow: false});
+				$(".gallery:gt(0) a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+		
+				$("#custom_content a[rel^='prettyPhoto']:first").prettyPhoto({
+					custom_markup: '<div id="map_canvas" style="width:260px; height:265px"></div>',
+					changepicturecallback: function(){ initialize(); }
+				});
+
+				$("#custom_content a[rel^='prettyPhoto']:last").prettyPhoto({
+					custom_markup: '<div id="bsap_1259344" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6"></div><div id="bsap_1237859" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6" style="height:260px"></div><div id="bsap_1251710" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6"></div>',
+					changepicturecallback: function(){ _bsap.exec(); }
+				});
+			});
+			</script>
 
 <script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/js/plusone.js" gapi_processed="true"></script>
 

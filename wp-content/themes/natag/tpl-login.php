@@ -28,7 +28,7 @@ get_header();
 								//wp_redirect( 'http://localhost/wordpress/wp-login.php', sleep(3)); exit;
 								//wp_redirect( home_url( '/wp-admin' ),sleep(10) ); 
 								
-								printf("<script>location.href='".home_url("/")."wp-admin'</script>");
+								printf("<script>location.href='".home_url("/")."?page_id=118'</script>");
 							
 								
 							  }
@@ -51,6 +51,7 @@ get_header();
                          
 							<div class="memberlogin">
 					      	<?php /* Page Content */  the_content(); ?>	
+                            Not yet a member <a title="Join Us" href="<?php bloginfo('url');?>/?page_id=116">Join Us</a>
 							</div>	
                      				
 							<?php endwhile; else: ?>
