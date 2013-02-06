@@ -15,7 +15,7 @@
 				$to = $user_info->user_email;
 				$name = ucfirst($user_info->display_name);
 				$subject = "Feedback Survey Natag";
-				$message = str_replace("$name",$name,$_POST['content']);
+				$message = stripslashes(str_replace('$name',$name,$_POST['content']));
 				
 				$headers = 'From: National AG';
 				$headers  .= 'MIME-Version: 1.0' . "\r\n";
