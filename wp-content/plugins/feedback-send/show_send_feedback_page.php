@@ -15,7 +15,7 @@
 				$to = $user_info->user_email;
 				$name = ucfirst($user_info->display_name);
 				$subject = "Feedback Survey Natag";
-				$message = eval($_POST['content']);
+				$message = str_replace("$name",$name,$_POST['content']);
 				
 				$headers = 'From: National AG';
 				$headers  .= 'MIME-Version: 1.0' . "\r\n";
@@ -23,7 +23,7 @@
 				$mail = mail( $to, $subject, $message, $headers);
 				if($mail)
 				{
-					$insert_query = "insert into wp_send_feedback (user_id, feedback_status) values ($user_id)";
+					$insert_query = "insert into wp_send_feedback (user_id, feedback_status) values ($user_id, 0)";
 					$wpdb->query($insert_query);
 				}
 			}
