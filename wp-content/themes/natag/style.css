@@ -1595,3 +1595,5 @@ ul.row_1 li, ul.row_2 li, ul.row_3 li {
 	font-size:13px;
 	padding:10px;
 }
+
+div#survey_message{border: 1px solid #006633; border-radius: 5px; background:#B0E5BD; padding: 5px; margin-bottom: 10px;}

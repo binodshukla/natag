@@ -108,11 +108,11 @@ endif;
    							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
                                <?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>
   							<?php
-								if(isset($feedback_data) && $feedback_data->feedback_status == 0)
+								if(count($feedback_data)>0 && $feedback_data->feedback_status == 0)
 								{
 									?>
                                     <div id="survey_message">
-                                    	You have a feedback pending. <a href="<?php echo get_option('siteurl')?>">Accept</a> or <a href="<?php echo get_option('siteurl')?>">Decline</a>
+                                    	You have a feedback pending. <a href="<?php echo get_option('siteurl')?>/?page_id=577">Accept</a> or <a href="<?php echo get_option('siteurl')?>/?page_id=596&message_id=<?php echo $feedback_data->id; ?>">Decline</a>
                                     </div>
                                     <?php
 								}
