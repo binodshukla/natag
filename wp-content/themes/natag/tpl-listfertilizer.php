@@ -183,7 +183,7 @@ get_header();
                 </td>
             	<td align="left" class="listtdlast">
 					<a href="<?php echo get_option('siteurl')?>/?page_id=402&post_id=<?php echo $id?>">View-Request</a>
-                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=fertilizer&post_id=<?php echo $id?>" target="_blank">Print</a>
+                    &nbsp;&nbsp;<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=547&type=fertilizer&post_id=<?php echo $id?>')">Print</a>
                     <input type="hidden" name="post_id" value="<?php echo $id?>" />
                 </td>
             </tr>

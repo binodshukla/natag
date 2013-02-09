@@ -22,14 +22,15 @@ $wppb_login = false;
 function wppb_signon(){	
 	global $error;
 	global $wppb_login;
-
-	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && $_POST['action'] == 'log-in' && wp_verify_nonce($_POST['login_nonce_field'],'verify_true_login') && ($_POST['formName'] == 'login') ){
+	$user = get_user_by('login', $_POST['user-name']);
+	$activate = $user->activation;
+	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && $activate==1 && $_POST['action'] == 'log-in' && wp_verify_nonce($_POST['login_nonce_field'],'verify_true_login') && ($_POST['formName'] == 'login') ){
 		if (isset($_POST['remember-me']))
 			$remember = $_POST['remember-me'];
 		else $remember = false;
 		$wppb_login = wp_signon( array( 'user_login' => $_POST['user-name'], 'user_password' => $_POST['password'], 'remember' => $_POST['remember-me'] ), false );
 		
-	}elseif (isset($_GET['userName']) && isset($_GET['passWord'])){
+	}elseif (isset($_GET['userName']) && isset($_GET['passWord']) && $activate==1){
 		$remember = true;
 		$username = $_GET['userName'];
 		$password = base64_decode($_GET['passWord']);

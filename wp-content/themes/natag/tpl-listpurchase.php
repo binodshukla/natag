@@ -7,12 +7,76 @@
  */
 
 get_header();
-  wp_get_current_user();
-  get_currentuserinfo() ;
-  $user_id = get_current_user_id();
-  global $user_level; 
-  global $wpdb;
-  ?>
+wp_get_current_user();
+get_currentuserinfo() ;
+$user_id = get_current_user_id();
+global $user_level; 
+global $wpdb;
+if($_REQUEST['delete'] == 'DELETE')
+{
+	if (isset($_REQUEST['chk_group'])) {
+	$optionArray = $_REQUEST['chk_group'];
+	for ($i=0; $i<count($optionArray); $i++) {
+	  wp_delete_post($optionArray[$i]);
+	}
+	}
+}
+
+if($_REQUEST['submit'] == 'Order Placed')
+{
+
+	$my_id = $_REQUEST['post_id'];
+	$post_id_7 = get_post($my_id); 
+	$author = $post_id_7->post_author;
+
+	if (isset($_REQUEST['chk_group'])) 
+	{
+		$optionArray = $_REQUEST['chk_group'];
+		for ($i=0; $i<count($optionArray); $i++) 
+		{
+			$my_post = array();
+			$my_post['ID'] = $optionArray[$i];
+			$my_post['post_status'] = 'Order Recieved';
+			// Update the post into the database
+			wp_update_post( $my_post );	
+
+			$user_info = get_userdata($author);
+			$to = $user_info->user_email;
+			$uname = ucfirst($user_info->user_nicename);
+			$subject = "Purchase Order Completed";
+			$message = get_option('farmer_complete_order');
+			$message = str_replace('$name',$uname,$message);
+			//$message = str_replace('$requestname','Fertilizer/Chemical',$message);
+			$headers = 'From: National AG';
+			$headers  .= 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+			$mail = mail( $to, $subject, $message, $headers);
+		}
+	}
+	else
+	{
+		$my_post = array();
+		$my_post['ID'] = $_REQUEST['post_id'];
+		$my_post['post_status'] = 'Order Recieved';
+		// Update the post into the database
+		wp_update_post( $my_post );	
+
+		$user_info = get_userdata($author);
+		$to = $user_info->user_email;
+		$uname = ucfirst($user_info->user_nicename);
+		$subject = "Purchase Order Completed";
+		$message = get_option('farmer_complete_order');
+		$message = str_replace('$name',$uname,$message);
+		//$message = str_replace('$requestname','Fertilizer/Chemical',$message);
+		$headers = 'From: National AG';
+		$headers  .= 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		$mail = mail( $to, $subject, $message, $headers);
+	}
+
+}
+
+?>
 <script src="<?php bloginfo('template_directory'); ?>/js/jquery-1.6.1.min.js" type="text/javascript"></script>
 <link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 <script src="<?php bloginfo('template_directory'); ?>/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
@@ -79,10 +143,6 @@ get_header();
 		
 		</div>
 			<div id="contentinn" role="main">
-			
-			
-			
-			
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					        
 							<h3><?php /* Page Title */
@@ -93,13 +153,16 @@ get_header();
                                <?php if ( is_user_logged_in() ) {
 								   
 							   ?>
-			<form name="home" action="<?php echo get_option('siteurl')?>/?page_id=<?php echo $_REQUEST['page_id']?>" method="get">
+			<form name="home" action="<?php echo get_option('siteurl')?>/?page_id=<?php echo $_REQUEST['page_id']?>" method="post">
             <table border="0" cellpadding="0px" width="100%" align="center" cellspacing="0">
 			<tr>
             <td colspan="8" align="right">
             <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id']?>" />
-            <input type="submit" name="delete" value="DELETE" style="background:#336699; cursor:pointer; color:#FFF; border:none;">
-            </td>
+            <input type="submit" name="delete" value="DELETE" class="form-button">
+			<?php if($user_level == 10) {?>
+	            <input type="submit" name="submit" class="form-button" value="Order Placed" />
+            <?php }?>
+             </td>
             </tr>
        		<tr class="listtable">
             	<th align="center" class="listtd">
@@ -180,17 +243,22 @@ get_header();
                 	<?php echo get_post_meta($id,'total_price',true); ?>
                 </td>
             	<td align="left" class="listtd">
-                	<?php echo ucfirst($post_status); ?>
+                	<?php 
+						if($post_status == 'ordersent' && $user_level == 10){ echo 'Order Pending';} 
+						elseif($post_status == 'ordersent'){ echo 'Order-Sent';}
+						elseif($post_status == 'orderrecieved' && $user_level == 10){ echo 'Order Place';}
+						elseif($post_status == 'orderrecieved'){ echo 'Order-Complete';}
+					?>
                 </td>
             	<td align="left" class="listtd">
 					<?php echo get_post_meta($id,'purchase_date',true); ?>
                 </td>
             	<td align="left" class="listtdlast">
-					<a href="<?php echo get_option('siteurl')?>/?page_id=540&post_id=<?php echo $id?>" target="_blank">Print</a>&nbsp;
-                    <input type="hidden" name="post_id" value="<?php echo $id?>" />
-                   <?php if($user_level == 10) {?>
-                    <input type="submit" name="submit" value="Complete" />
-                   <?php }?> 
+					<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=540&post_id=<?php echo $id?>')" >Print</a>&nbsp;
+                    <input type="hidden" name="post_id" value="<?php echo $id?>" /> 
+				<?php if($user_level == 10) {?>
+                    <input type="button" name="submit" onclick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=544&post_id=<?php echo $id?>&submit=Complete'" class="form-button" value="Order Placed" />
+                <?php }?>
                 </td>
             </tr>
 <?php

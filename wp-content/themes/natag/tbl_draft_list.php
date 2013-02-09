@@ -179,6 +179,17 @@ get_header();
                 $post_title=$myterms->post_title;
                 $post_name=$myterms->post_name;
                 $post_date=$myterms->post_date;
+				$parent_post_id = $id;
+				$args = array(
+				'numberposts' => 1,
+				'post_parent' => $parent_post_id,
+				'post_type' => 'purchaseorder'
+				);
+				$child_post = get_children( $args );
+				foreach($child_post as $child)
+				{
+					$parent_id = $child->post_parent;
+				}
             ?>
             <?php
             if($ct%2 == 0)
@@ -234,7 +245,24 @@ get_header();
                 <td align="left" class="listtdlast">
                     <input type="hidden" name="post_id" value="<?php echo $id?>" />
                     <a href="<?php echo get_option('siteurl')."?page_id=489&post_id=".$id?>">View-Request</a>
-                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=equipment&post_id=<?php echo $id?>" target="_blank">Print</a>
+                    &nbsp;&nbsp;<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=547&type=equipment&post_id=<?php echo $id?>')">Print</a>&nbsp;
+                    <?php
+					if($id != $parent_id)
+					{
+						if($post_status == 'publish')
+						{
+					?>
+                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <?php
+						}
+					}
+					else
+					{
+					?>
+                	<strong>Already Generated</strong>
+                    <?php	
+					}
+					?>
                 </td>
             </tr>
             <?php
@@ -322,6 +350,17 @@ get_header();
 				$post_title=$myterms->post_title;
 				$post_name=$myterms->post_name;
 				$post_date=$myterms->post_date;
+				$parent_post_id = $id;
+				$args = array(
+				'numberposts' => 1,
+				'post_parent' => $parent_post_id,
+				'post_type' => 'purchaseorder'
+				);
+				$child_post = get_children( $args );
+				foreach($child_post as $child)
+				{
+					$parent_id = $child->post_parent;
+				}
 ?>
        		<?php
 			if($ct%2 == 0)
@@ -374,7 +413,24 @@ get_header();
             	<td align="left" class="listtdlast">
                     <input type="hidden" name="post_id" value="<?php echo $id?>" />
                     <a href="<?php echo get_option('siteurl')."?page_id=482&post_id=".$id?>">View-Request</a>
-                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=fertilizer&post_id=<?php echo $id?>" target="_blank">Print</a>
+                    &nbsp;&nbsp;<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=547&type=fertilizer&post_id=<?php echo $id?>')">Print</a>&nbsp;
+                    <?php
+					if($id != $parent_id)
+					{
+						if($post_status == 'publish')
+						{
+					?>
+                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <?php
+						}
+					}
+					else
+					{
+					?>
+                	<strong>Already Generated</strong>
+                    <?php	
+					}
+					?>
                 </td>
             </tr>
 <?php
@@ -466,6 +522,17 @@ get_header();
 				$post_title=$myterms->post_title;
 				$post_name=$myterms->post_name;
 				$post_date=$myterms->post_date;
+				$parent_post_id = $id;
+				$args = array(
+				'numberposts' => 1,
+				'post_parent' => $parent_post_id,
+				'post_type' => 'purchaseorder'
+				);
+				$child_post = get_children( $args );
+				foreach($child_post as $child)
+				{
+					$parent_id = $child->post_parent;
+				}
 ?>
        		<?php
 			if($ct%2 == 0)
@@ -521,7 +588,24 @@ get_header();
             	<td align="left" class="listtdlast">
                     <input type="hidden" name="post_id" value="<?php echo $id?>" />
                     <a href="<?php echo get_option('siteurl').'?page_id=467&post_id='.$id?>">View-Request</a>
-                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=supplies&post_id=<?php echo $id?>" target="_blank">Print</a>
+                    &nbsp;&nbsp;<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=547&type=supplies&post_id=<?php echo $id?>')">Print</a>&nbsp;
+                    <?php
+					if($id != $parent_id)
+					{
+						if($post_status == 'publish')
+						{
+					?>
+                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <?php
+						}
+					}
+					else
+					{
+					?>
+                	<strong>Already Generated</strong>
+                    <?php	
+					}
+					?>
                 </td>
             </tr>
 <?php
@@ -613,6 +697,17 @@ get_header();
 				$post_title=$myterms->post_title;
 				$post_name=$myterms->post_name;
 				$post_date=$myterms->post_date;
+				$parent_post_id = $id;
+				$args = array(
+				'numberposts' => 1,
+				'post_parent' => $parent_post_id,
+				'post_type' => 'purchaseorder'
+				);
+				$child_post = get_children( $args );
+				foreach($child_post as $child)
+				{
+					$parent_id = $child->post_parent;
+				}
 ?>
        		<?php
 			if($ct%2 == 0)
@@ -668,7 +763,24 @@ get_header();
             	<td align="left" class="listtdlast">
                     <input type="hidden" name="post_id" value="<?php echo $id?>" />
                     <a href="<?php echo get_option('siteurl').'?page_id=472&post_id='.$id?>">View-Request</a>
-                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=parts&post_id=<?php echo $id?>" target="_blank">Print</a>
+                    &nbsp;&nbsp;<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=547&type=parts&post_id=<?php echo $id?>')">Print</a>&nbsp;
+                    <?php
+					if($id != $parent_id)
+					{
+						if($post_status == 'publish')
+						{
+					?>
+                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <?php
+						}
+					}
+					else
+					{
+					?>
+                	<strong>Already Generated</strong>
+                    <?php	
+					}
+					?>
                 </td>
             </tr>
 <?php
@@ -759,6 +871,17 @@ get_header();
 				$post_title=$myterms->post_title;
 				$post_name=$myterms->post_name;
 				$post_date=$myterms->post_date;
+				$parent_post_id = $id;
+				$args = array(
+				'numberposts' => 1,
+				'post_parent' => $parent_post_id,
+				'post_type' => 'purchaseorder'
+				);
+				$child_post = get_children( $args );
+				foreach($child_post as $child)
+				{
+					$parent_id = $child->post_parent;
+				}
 ?>
        		<?php
 			if($ct%2 == 0)
@@ -814,7 +937,24 @@ get_header();
             	<td align="left" class="listtdlast">
                     <input type="hidden" name="post_id" value="<?php echo $id?>" />
                     <a href="<?php echo get_option('siteurl').'?page_id=517&post_id='.$id?>">View-Request</a>
-                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=tire&post_id=<?php echo $id?>" target="_blank">Print</a>
+                    &nbsp;&nbsp;<a href="<?php echo get_option('siteurl')?>/?page_id=547&type=tire&post_id=<?php echo $id?>" target="_new">Print</a>&nbsp;
+                    <?php
+					if($id != $parent_id)
+					{
+						if($post_status == 'publish')
+						{
+					?>
+                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <?php
+						}
+					}
+					else
+					{
+					?>
+                	<strong>Already Generated</strong>
+                    <?php	
+					}
+					?>
                 </td>
             </tr>
 <?php

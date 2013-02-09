@@ -39,9 +39,9 @@ if($submit == 'Save')
 	update_post_meta($post_id, 'price_quote', $national_price); 
 	update_post_meta($post_id, 'saved_offer', $saved_offer); 
 	update_post_meta($post_id, 'add_info', $add_info);
+	update_post_meta($post_id, 'freight', $freight);
 	
-	
-	header("Location:".$url."/?page_id=455&type=equipment");
+	header("Location:".$url."/?page_id=506");
 }
 elseif($submit == 'Submit')
 {
@@ -75,16 +75,24 @@ elseif($submit == 'Submit')
 	update_post_meta($post_id, 'add_info', $add_info);
 	update_post_meta($_REQUEST['post_id'], 'form_submit', $submit);
 	add_post_meta($_REQUEST['post_id'], 'request_status', 'pending');
+	update_post_meta($post_id, 'freight', $freight);
 	
-	$to = get_option('admin_email');
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
 	$subject = "Equipment Request Notification";
-	$message = "You have recieve a new Equipment Request, Please check you Admin";
+	$message = get_option('admin_request_from_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$requestname','Equipment',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
-	header("Location:".$url."/?page_id=455&type=equipment");
+
+	header("Location:".$url."/?page_id=441");
+	//header("Location:".$url."/?page_id=455&type=equipment");
 }
 ?>
-
 		<div id="primaryinn">
 		<div id="leftsilde">
 		<div class="cat">
@@ -132,18 +140,14 @@ elseif($submit == 'Submit')
 		
 		</div>
 			<div id="contentinn" role="main">
-			
-					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-					        	
-							<h3><?php /* Page Title */
+						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+							<h3>
+								<?php /* Page Title */
    							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
-<?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>
-							
-					      	<?php /* Page Content */  the_content(); ?>				
-							<?php endwhile; else: ?>
-						<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+								<?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?>
+                            </h3>
+						<?php endwhile;?>
 						<?php endif; ?>
-						
 					      <!--  ARTICLE BOX STARTS  -->
 	<center>
 		<?php
@@ -169,14 +173,14 @@ elseif($submit == 'Submit')
 							$parent_id = $child->post_parent;
 						}
         ?>
-    	<form action="" method="post" name="equip">
+    	<form action="" method="post" name="equip" id="equipsubmit">
 	 	<div style="border: 1px dotted #C0C0C0; width: 600px; padding-right: 30px; padding-left: 20px; padding-bottom: 50px;font-family:Arial, Helvetica, sans-serif;font-size:12px;">  
             <div style="text-align:left;">
                 <div style="width:91px; float:left;">Your name</div>
                 <div style="width:209px; float:left;">
-                    <input type="text" style="width: 173px" name="fname" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> value="<?php echo $post_name; ?>" > </div>
+                    <input type="text" style="width: 173px" id="fname" name="fname" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> value="<?php echo $post_name; ?>" > </div>
                 <div style="width:125px; float:left;">Your code number </div>
-                <div style="width:165px; float:left;"><input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width:170px" name="cname" value="<?php echo get_post_meta($id,'code_number',true); ?>" ></div>
+                <div style="width:165px; float:left;"><input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width:170px" id="cname" name="cname" value="<?php echo get_post_meta($id,'code_number',true); ?>" ></div>
             </div>                                 
 			<div style="text-align:left;clear:both;"><br />
 				<strong>I am looking for:</strong></div>
@@ -185,34 +189,34 @@ elseif($submit == 'Submit')
 				How Many 
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 412px" name="equip_count" value="<?php echo get_post_meta($id,'quantity',true); ?>" ></div>
+					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 412px" name="equip_count" id="equip_count" value="<?php echo get_post_meta($id,'quantity',true); ?>" ></div>
 			</div>
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Brand preference (if any) 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 410px" name="bpreference" value="<?php echo get_post_meta($id,'brand_preference',true); ?>" ></div>
+					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 410px" name="bpreference" id="bpreference" value="<?php echo get_post_meta($id,'brand_preference',true); ?>" ></div>
 			</div>
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Item name   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 412px" name="item_name" value="<?php echo get_post_meta($id,'item_name',true); ?>" ></div>
+					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 412px" name="item_name" id="item_name" value="<?php echo get_post_meta($id,'item_name',true); ?>" ></div>
 			</div>
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Model name/number  
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 412px" name="model_name" value="<?php echo get_post_meta($id,'model_name',true); ?>" ></div>
+					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 412px" name="model_name" id="model_name" value="<?php echo get_post_meta($id,'model_name',true); ?>" ></div>
 			</div>
 			<div style="text-align:left;">
 				<div style="width:91px; float:left;">Size</div>
 				<div style="width:209px; float:left;">
-					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 173px" name="equip_size" value="<?php echo get_post_meta($id,'equip_size',true); ?>" > </div>
+					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 173px" name="equip_size"  id="equip_size" value="<?php echo get_post_meta($id,'equip_size',true); ?>" > </div>
 				<div style="width:125px; float:left;">Capacity</div>
-				<div style="width:165px; float:left;"><input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width:170px" name="capacity" value="<?php echo get_post_meta($id,'capacity',true); ?>" ></div>
+				<div style="width:165px; float:left;"><input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width:170px" name="capacity" id="capacity" value="<?php echo get_post_meta($id,'capacity',true); ?>" ></div>
 			</div>
 			<div style="clear:both;">
 				<div style="float:left;">Powered by: PTO/RM  </div>
@@ -263,16 +267,10 @@ elseif($submit == 'Submit')
 				My best local price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> name="local_price" value="<?php echo get_post_meta($id,'local_price',true); ?>" style="width: 412px" ></div>
+					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> name="local_price" value="<?php echo get_post_meta($id,'local_price',true); ?>" id="local_price" style="width: 412px" ></div>
 			</div>
 			</div>
-			<div>
-				<div style="float:left;width: 203px; text-align:left;">
-				National Ag Price Quote $ 
-				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
-					<input type="text" readonly="readonly" style="width: 121px" name="national_price" value="<?php echo get_post_meta($id,'price_quote',true); ?>" ></div>
-			</div>
+
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
 				Additional information   
@@ -280,6 +278,29 @@ elseif($submit == 'Submit')
 				<div style="width:413px; float:left;text-align:right;">
 					<textarea name="add_info" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> style="width: 410px; height: 67px"><?php echo get_post_meta($id,'add_info',true); ?></textarea></div>
 			</div>
+
+            <div style="clear:both;"></div>
+
+			<div style="text-align:left;clear:both;">
+				<strong>For official use only:</strong>
+            </div>
+
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				National Ag Price Quote $ 
+				</div>
+				<div style="width:336px; float:left;" class="auto-style2">
+					<input type="text" readonly="readonly" style="width: 121px" name="national_price" value="<?php echo get_post_meta($id,'price_quote',true); ?>" ></div>
+			</div>
+			
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
+			</div>
+
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
              	<?php 
 				if(get_post_meta($id,'form_submit',true) == 'Save')
@@ -288,9 +309,9 @@ elseif($submit == 'Submit')
                     <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id']?>">
                     <input type="hidden" name="user_id" value="<?php echo $post_author?>">				
                     <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id'] ?>">
-                    <input type="submit" name="submit" value="Submit" onclick="return confirm('Are you sure want to submit ?')">
-                    <input type="submit" name="submit" value="Save">
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+                    <input type="submit" class="form-button" name="submit" value="Save">
+                    <input type="submit" class="form-button" name="submit" value="Submit" onclick="return validate_equip();">
+					<input type="button" class="form-button" name="button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
 				}
 				elseif(get_post_meta($id,'request_status',true) == 'completed')
@@ -298,22 +319,22 @@ elseif($submit == 'Submit')
 					if($id != $parent_id)
 					{
 				?>
-					<input type="button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $_REQUEST['post_id']?>'" value="Generate Purchase Order">
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+					<input type="button" name="button" class="form-button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $_REQUEST['post_id']?>'" value="Generate Purchase Order">
+					<input type="button" name="button" class="form-button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
 					}
 					else
 					{
 				?>
                 	<strong>Purchase Order Already Generated</strong>&nbsp;
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+					<input type="button" class="form-button" name="button" onClick="javascript:history.go(-1)" value="Back">
                 <?php		
 					}
 				}
 				else
 				{
 				?>
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+					<input type="button" name="button" class="form-button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
                 }
 				?>

@@ -58,11 +58,18 @@ if($submit == 'Submit')
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_status', 'pending');
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 	
-	$to = get_option('admin_email');
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
 	$subject = "Parts Request Notification";
-	$message = "You have recieve a new Parts Request, Please check you Admin";
+	$message = get_option('admin_request_from_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$requestname','Parts',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
 
 	header("Location:".$url."/?page_id=441");
@@ -116,6 +123,7 @@ elseif($submit == 'Save')
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 	
 	header("Location:".$url."/?page_id=506");
 }
@@ -178,9 +186,9 @@ function confirmSubmit()
             <div style="text-align:left;">
 				<div style="width:91px; float:left;">Your name</div>
 				<div style="width:209px; float:left;">
-					<input type="text" name="fname" value="" style="width: 173px" > </div>
+					<input type="text" id="fname" name="fname" value="" style="width: 173px" > </div>
 				<div style="width:125px; float:left;">Your code number </div>
-				<div style="width:165px; float:left;"><input name="cname" value="" type="text" style="width:170px" ></div>
+				<div style="width:165px; float:left;"><input name="cname" id="cname" value="" type="text" style="width:170px" ></div>
 			</div>
 			 
 			<div style="text-align:left;clear:both;"><br />
@@ -190,11 +198,11 @@ function confirmSubmit()
 			
 			<div style="width:88px; float:left;text-align:left;">How many </div>
 				<div style="width:219px; float:left;text-align:left;">
-					<input type="text" name="quantity" value="" style="width:173px;" ></div>
+					<input type="text" id="quantity" name="quantity" value="" style="width:173px;" ></div>
 				<div style="width:119px; float:left;text-align:left;">
 					Part Name</div>
 				<div style="width:170px; float:left;">
-					<input type="text" name="part_name" value="" style="width: 170px" ></div>
+					<input type="text" id="part_name" name="part_name" value="" style="width: 170px" ></div>
 
 			
 			
@@ -206,14 +214,14 @@ function confirmSubmit()
 				For a: year and type of vehicle 
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="type" value="" style="width: 412px" ></div>
+					<input type="text" id="type" name="type" value="" style="width: 412px" ></div>
 
 			</div>
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Brand name  				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="brand_name" value="" style="width: 410px" ></div>
+					<input type="text" id="brand_name" name="brand_name" value="" style="width: 410px" ></div>
 
 			</div>
 
@@ -222,7 +230,7 @@ function confirmSubmit()
 				Model name/number  
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="model" value="" style="width: 412px" ></div>
+					<input type="text" id="model" name="model" value="" style="width: 412px" ></div>
 
 			</div>
 			
@@ -232,7 +240,7 @@ function confirmSubmit()
 				Serial number   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="serial_no" value="" style="width: 410px" ></div>
+					<input type="text" id="serial_no" name="serial_no" value="" style="width: 410px" ></div>
 
 			</div>
 			
@@ -278,7 +286,7 @@ function confirmSubmit()
 					<textarea name="add_descpt" style="width: 410px; height: 67px"></textarea></div>
 
 			</div>
-			<div style="width:100%;text-align:left;">This is an emergency I routine request. <input type="radio" name="request" value="Emergency">Emergency&nbsp;&nbsp;<input type="radio" name="request" value="Routine">Routine&nbsp;&nbsp; </div>
+			<div style="width:100%;text-align:left;">This is an emergency I routine request. <input type="radio" name="request" value="Emergency">Emergency&nbsp;&nbsp;<input type="radio" checked="checked" name="request" value="Routine">Routine&nbsp;&nbsp; </div>
 			
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
@@ -295,7 +303,7 @@ function confirmSubmit()
 				My best local price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="best_price" value="" style="width: 412px" >
+					<input type="text" id="best_price" name="best_price" value="" style="width: 412px" >
                 </div>
 			</div>
 			</div>
@@ -308,17 +316,23 @@ function confirmSubmit()
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
 				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
+				<div style="width:336px; float:left;" class="auto-style2">
 					<input type="text" name="price_quote" value="" style="width: 121px" readonly="readonly" >
                 </div>
 			</div>
 
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
+			</div>
 
-			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
-			 For your own information, you should record <br />
+			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;"> <br />For your own information, you should record <br />
 				 the date and time you initiated this inquiry.<br />
 				 <br>
-				 <input class="form-button" type="submit" name="submit" value="Save">&nbsp;<input type="submit" name="submit" value="Submit"  class="form-button" onclick="return confirmSubmit();">&nbsp;<input class="form-button" type="reset" name="submit" value="Cancel">
+				 <input class="form-button" type="submit" name="submit" value="Save">&nbsp;<input type="submit" name="submit" value="Submit"  class="form-button" onclick="return validate_parts();">&nbsp;<input class="form-button" type="reset" name="submit" value="Cancel">
 			 </div>
 			 
 			 
