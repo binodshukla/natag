@@ -10,7 +10,11 @@ ob_start();
 get_header();
   wp_get_current_user();
   get_currentuserinfo() ;
-  global $user_level; ?>
+  global $user_level; 
+
+	$feedback_query = "select * from ".$wpdb->prefix."send_feedback where user_id = ".$current_user->ID;
+	$feedback_data = $wpdb->get_results($feedback_query);
+?>
 <script src="<?php bloginfo('template_directory'); ?>/js/jquery-1.6.1.min.js" type="text/javascript"></script>
 <link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 <script src="<?php bloginfo('template_directory'); ?>/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>

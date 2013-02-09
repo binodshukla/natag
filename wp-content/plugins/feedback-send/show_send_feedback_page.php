@@ -17,15 +17,13 @@
 				$subject = "Feedback Survey Natag";
 				$message = stripslashes(str_replace('$name',$name,$_POST['content']));
 				
+				$insert_query = "insert into ".$wpdb->prefix."send_feedback (user_id, feedback_status) values ($user_id, 0)";
+				$wpdb->query($insert_query);
+				
 				$headers = 'From: National AG';
 				$headers  .= 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 				$mail = mail( $to, $subject, $message, $headers);
-				if($mail)
-				{
-					$insert_query = "insert into wp_send_feedback (user_id, feedback_status) values ($user_id, 0)";
-					$wpdb->query($insert_query);
-				}
 			}
 		}
 	}
