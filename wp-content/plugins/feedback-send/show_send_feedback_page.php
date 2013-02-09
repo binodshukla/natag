@@ -10,15 +10,16 @@
 			
 			foreach($_POST['users'] as $user_id)
 			{
+				$insert_query = "insert into ".$wpdb->prefix."send_feedback (user_id, feedback_status) values ($user_id, 0)";
+				$wpdb->query($insert_query);
+				$survey_id = $wpdb->insert_id;
 				// Start Mailing
 				$user_info = get_userdata($user_id);
 				$to = $user_info->user_email;
 				$name = ucfirst($user_info->display_name);
 				$subject = "Feedback Survey Natag";
 				$message = stripslashes(str_replace('$name',$name,$_POST['content']));
-				
-				$insert_query = "insert into ".$wpdb->prefix."send_feedback (user_id, feedback_status) values ($user_id, 0)";
-				$wpdb->query($insert_query);
+				$message .= "<p>To decline the survey click <a href=\"".get_option('siteurl')."/?page_id=596&message_id=".$survey_id."\">here.</a></p>";
 				
 				$headers = 'From: National AG';
 				$headers  .= 'MIME-Version: 1.0' . "\r\n";
