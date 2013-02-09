@@ -107,7 +107,16 @@ endif;
 							<h3><?php /* Page Title */
    							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
                                <?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>
-  
+  							<?php
+								if(isset($feedback_data) && $feedback_data->feedback_status == 0)
+								{
+									?>
+                                    <div id="survey_message">
+                                    	You have a feedback pending. <a href="<?php echo get_option('siteurl')?>">Accept</a> or <a href="<?php echo get_option('siteurl')?>">Decline</a>
+                                    </div>
+                                    <?php
+								}
+							?>
                            <!-- <div id="adtopbar">
 								<!--<?php if ( is_user_logged_in() ) {?>
 								  <div class="editProfile"><a href="#" class="usernameheader"> <?php echo $current_user->display_name; ?></a><a href="<?php bloginfo('url');?>/?page_id=122/" target="_blank">Edit Profile</a></div><div class="pipe">|</div><div id="logout"><a href="<?php echo wp_logout_url( get_permalink() ); ?>" title="Logout">Logout</a></div>
