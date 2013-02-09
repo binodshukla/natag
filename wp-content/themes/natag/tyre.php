@@ -61,12 +61,20 @@ if($submit == 'Submit')
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_status', 'pending');
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 	
-	$to = get_option('admin_email');
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
 	$subject = "Tire Request Notification";
-	$message = "You have recieve a new Tire Request, Please check you Admin";
+	$message = get_option('admin_request_from_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$requestname','Tire',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
+
 	header("Location:".$url."/?page_id=441");
 }
 elseif($submit == 'Save')
@@ -121,6 +129,7 @@ elseif($submit == 'Save')
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 	
 	
 	header("Location:".$url."/?page_id=506");
@@ -184,9 +193,9 @@ function confirmSubmit()
             <div style="text-align:left;">
 				<div style="width:91px; float:left;">Your name</div>
 				<div style="width:209px; float:left;">
-					<input type="text" name="fname" value="" style="width: 173px" > </div>
+					<input type="text" id="fname" name="fname" value="" style="width: 173px" > </div>
 				<div style="width:152px; float:left;">Your code number </div>
-				<div style="width:140px; float:left;"><input name="cname" value="" type="text" ></div>
+				<div style="width:140px; float:left;"><input id="cname" name="cname" value="" type="text" ></div>
 			</div>
 			 
 			<div style="text-align:left;clear:both;"><br />
@@ -196,15 +205,15 @@ function confirmSubmit()
 			
 			<div style="width:79px; float:left;text-align:left;">How many </div>
 				<div style="width:141px; float:left;">
-					<input type="text" name="quantity" value="" ></div>
+					<input type="text" style="width: 40px" id="quantity" name="quantity" value="" ></div>
 				<div style="width:38px; float:left;">
 					Size</div>
 				<div style="width:92px; float:left;">
-					<input type="text" name="size" value="" style="width: 91px" ></div>
+					<input type="text" name="size" id="size" value="" style="width: 91px" ></div>
 				<div style="width:99px; float:left;">
 					Radial/Bias</div>
 				<div style="width:147px; float:left;">
-					<input type="text" name="radial" value="" ></div>
+					<input type="text" name="radial" id="radial" value="" ></div>
 
 			
 			
@@ -216,7 +225,7 @@ function confirmSubmit()
 				Brand preference (if any) 
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="bpref" value="" style="width: 412px" ></div>
+					<input type="text" name="bpref" id="bpref" value="" style="width: 412px" ></div>
 
 			</div>
 			<div>
@@ -224,7 +233,7 @@ function confirmSubmit()
 				Model of tire pricing   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="model" value="" style="width: 410px" ></div>
+					<input type="text" name="model" id="model" value="" style="width: 410px" ></div>
 
 			</div>
 
@@ -233,7 +242,7 @@ function confirmSubmit()
 				White/black wall    
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="wall" value="" style="width: 412px" ></div>
+					<input type="text" name="wall" id="wall" value="" style="width: 412px" ></div>
 
 			</div>
 			
@@ -241,19 +250,19 @@ function confirmSubmit()
 				<div style="float:left;width: 47px; text-align:left;">
 				Ply      
 				</div>
-				<div style="width:235px; float:left;text-align:right;">
-					<input type="text" name="ply" value="" style="width: 224px" ></div>
+				<div style="width:235px; float:left;text-align:left;">
+					<input type="text" name="ply" id="ply" value="" style="width: 200px; text-align:left;" ></div>
 					<div style="float:left;width: 84px; " class="auto-style2">
 				Type of tread  				</div>
 				<div style="  float:right;text-align:right;" class="auto-style1">
-					<input type="text" name="tread" value="" style="width: 227px" ></div>
+					<input type="text" name="tread" id="tread" value="" style="width: 227px" ></div>
 			</div>
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Typical use   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="usage" value="" style="width: 410px" ></div>
+					<input type="text" name="usage" id="usage" value="" style="width: 410px" ></div>
 			</div>
 			
 			<div>
@@ -261,7 +270,7 @@ function confirmSubmit()
 				For a (type of vehicle)   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="vehicles_type" value="" style="width: 403px" ></div>
+					<input type="text" name="vehicles_type" id="vehicles_type" value="" style="width: 403px" ></div>
 
 			</div>
 
@@ -272,7 +281,7 @@ function confirmSubmit()
 				</div>
 				<div style="width: 49px; float:left;">
 					 
-						<input checked="checked" name="mounted" value="No" type="radio" /> 
+						<input checked="checked" id="mounted" name="mounted" value="No" type="radio" /> 
 				No
 				</div>
 				<div style="width: 63px; float:left;">
@@ -308,7 +317,7 @@ function confirmSubmit()
 				My best local price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="best_price" value="" style="width: 412px">
+					<input type="text" id="best_price"  name="best_price" value="" style="width: 412px">
                 </div>
 			</div>
 			</div>
@@ -323,16 +332,25 @@ function confirmSubmit()
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
 				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
+				<div style="width:336px; float:left;" class="auto-style2">
 					<input type="text" name="price_quote" value="" style="width: 121px" readonly="readonly" >
                 </div>
 			</div>
 			 
-			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
-			 <br />For your own information, you should record <br />
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
+			</div>
+
+			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;"> <br />For your own information, you should record <br />
 				 the date and time you initiated this inquiry.<br />
 				 <br>
-				 <input type="submit" name="submit" value="Save" class="form-button">&nbsp;<input class="form-button" type="submit" name="submit" value="Submit" onclick="return confirmSubmit();">&nbsp;<input type="reset" name="submit" value="Cancel"  class="form-button">
+				 <input type="submit" name="submit" value="Save" class="form-button">&nbsp;
+                 <input class="form-button" type="submit" name="submit" value="Submit" onclick="return validate_tyre();">
+                 &nbsp;<input type="reset" name="submit" value="Cancel"  class="form-button">
 			 </div>
 			 
 			 

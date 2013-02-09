@@ -87,10 +87,6 @@ get_header();
 		
 		</div>
 			<div id="contentinn" role="main">
-			
-			
-			
-			
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					        
 							<h3><?php /* Page Title */

@@ -18,6 +18,18 @@ $user_id = wp_insert_user( array ('user_login' => $uname, 'user_nicename' => $un
 add_user_meta( $user_id, 'user_pass', $password);
 add_user_meta( $user_id, 'user_code', $access_code);
 
+$user_info = get_userdata(1);
+$to = $user_info->user_email;
+$uname = ucfirst($user_info->user_nicename);
+$subject = "New User Registration";
+$message = get_option('admin_register_farmer');
+$message = str_replace('$name',$uname,$message);
+$message = str_replace('$user_id',$user_id,$message);
+$headers = 'From: National AG';
+$headers  .= 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$mail = mail( $to, $subject, $message, $headers);
+
 header("Location:".$url."/?page_id=553");
 
 //[register message="Registration Successful , You will receive registration confirmation soon in your email inbox"  password="yes" notify="info@digitekvision.com"]
@@ -118,6 +130,13 @@ function validate()
 		
 		</div>
 			<div id="contentinn" role="main">
+					<?php ///if (have_posts()) : while (have_posts()) : the_post(); ?>
+							<?php /* Page Title */
+   							  // $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
+                               <?php //if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?>
+					      	<?php /* Page Content */  //the_content(); ?>	
+                               <?php
+                                //endwhile; endif; ?>
             <center>
         		<table width="100%" style="border-right:#999 1px dotted;">
                 	<tr>

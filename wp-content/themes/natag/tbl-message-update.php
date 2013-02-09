@@ -1,5 +1,7 @@
 <?php
 ob_start();
+//phpinfo();
+//die();
 /**
  * Template Name:Update Message
  * @package WordPress
@@ -7,27 +9,33 @@ ob_start();
  */
 
 get_header(); 
+global $wpdb;
 extract($_POST);
 if($action == 'update')
 {	
-	update_option( 'admin_request_from_farmer', $admin_request_from_farmer );
-	update_option( 'farmer_admin_quote', $farmer_admin_quote );
-	update_option( 'admin_register_farmer', $admin_register_farmer );
-	update_option( 'farmer_admin_active', $farmer_admin_active );
-	update_option( 'admin_farmer_generate_purchase_order', $admin_farmer_generate_purchase_order );
-	update_option( 'farmer_complete_order', $farmer_complete_order );
-	
+	if($email == 'request for estimation'):	
+	update_option('admin_request_from_farmer', stripslashes($admin_request_from_farmer));
+	elseif($email=='new user registration'):
+	update_option('admin_register_farmer', stripslashes($admin_register_farmer));
+	elseif($email=='generating purchase order'):
+	update_option('admin_farmer_generate_purchase_order', stripslashes($admin_farmer_generate_purchase_order));
+	elseif($email=='quote is ready'):
+	update_option( 'farmer_admin_quote', stripslashes($farmer_admin_quote) );
+	elseif($email=='user activation'):
+	update_option( 'farmer_admin_active', stripslashes($farmer_admin_active) );
+	elseif($email=='completing purchase order'):
+	update_option( 'farmer_complete_order', stripslashes($farmer_complete_order) );
+	endif;
 	$url = get_option('siteurl');
-	header("Location:".$url."/?page_id=549");
+	header("Location:".$url."/?page_id=549&type=".$email);
 }
-$admin_request_from_farmer = get_option('admin_request_from_farmer');
+/*$admin_request_from_farmer = get_option('admin_request_from_farmer');
 $farmer_admin_quote = get_option('farmer_admin_quote');
 $admin_register_farmer = get_option('admin_register_farmer');
 $farmer_admin_active = get_option('farmer_admin_active');
 $admin_farmer_generate_purchase_order = get_option('admin_farmer_generate_purchase_order');
-$farmer_complete_order = get_option('farmer_complete_order');
+$farmer_complete_order = get_option('farmer_complete_order');*/
 ?>
-<link href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" type="text/css" rel="stylesheet"/>
 		<div id="primaryinn">
 		<div id="leftsilde">
 		<div class="cat">
@@ -60,7 +68,7 @@ $farmer_complete_order = get_option('farmer_complete_order');
 		<div class="leftcontentl">
 		Office:<br/>
 		Fax:<br/>
-        Email:<br/>		
+        Email:<br/>
 
 		Toll Free:<br/>
 		</div>
@@ -81,64 +89,71 @@ $farmer_complete_order = get_option('farmer_complete_order');
         		<table width="100%" style="border-right:#999 1px dotted;">
                 	<tr>
                     	<td class="notification">
-                        	Newsletter for Request of Estimation
+                        	Manage Email Templates
                         </td>
                     </tr>
                     <tr>
                     	<td style="padding: 5px;">
                         	<form name="email_templates_form" id="email_templates_form" method="post" action="">
-                            <div id="tabs">
-                                <ul>
-                                    <li><a href="#tabs-1">Administrator Mail Templates</a></li>
-                                    <li><a href="#tabs-2">User Mail Templates</a></li>
-                                </ul>
-                                <div id="tabs-1">
-	                                <div>
-                                        <p>
-                                            Email template for request for estimation.
-                                        </p>
-                                        <p>
-                                            <textarea name="admin_request_from_farmer" id="admin_request_from_farmer" style="width: 100%;"><?php echo $admin_request_from_farmer; ?></textarea>
-                                        </p>
-                                        <p>
-                                        	Email template for new user registration.
-                                        </p>
-                                        <p>
-                                            <textarea name="admin_register_farmer" id="admin_register_farmer" style="width: 100%;"><?php echo $admin_register_farmer; ?></textarea>
-                                        </p>
-                                        <p>
-                                        	Email template on generating purchase order.
-                                        </p>
-                                        <p>
-                                            <textarea name="admin_farmer_generate_purchase_order" id="admin_farmer_generate_purchase_order" style="width: 100%;"><?php echo $admin_farmer_generate_purchase_order; ?></textarea>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div id="tabs-2">
-    	                            <div>
-                                    	<p>
-                                        	Email template when after quote is ready.
-                                        </p>
-                                        <p>
-                                            <textarea name="farmer_admin_quote" id="farmer_admin_quote" style="width: 100%;"><?php echo $farmer_admin_quote; ?></textarea>
-                                        </p>
-                                        <p>
-                                        	Email template on user activation.
-                                        </p>
-                                        <p>
-                                            <textarea name="farmer_admin_active" id="farmer_admin_active" style="width: 100%;"><?php echo $farmer_admin_active; ?></textarea>
-                                        </p>
-                                        <p>
-                                        	Email template on completing purchase order.
-                                        </p>
-                                        <p>
-                                            <textarea name="farmer_complete_order" id="farmer_complete_order" style="width: 100%;"><?php echo $farmer_complete_order; ?></textarea>
-                                        </p>
-                                    </div>
-                                </div>
+                            <div>
+                            <?php if($_REQUEST['type']=='request for estimation'):?>
+                                <p>
+                                    Email template for request for estimation.
+                                </p>
+                                <p>
+                                    <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'admin_request_from_farmer' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="admin_request_from_farmer" id="admin_request_from_farmer" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                            <?php elseif($_REQUEST['type']=='new user registration'):?>    
+                                <p>
+                                    Email template for new user registration.
+                                </p>
+                                <p>
+                                    <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'admin_register_farmer' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="admin_register_farmer" id="admin_register_farmer" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                            <?php elseif($_REQUEST['type']=='generating purchase order'):?>    
+                                <p>
+                                    Email template on generating purchase order.
+                                </p>
+                                <p>
+                                    <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'admin_farmer_generate_purchase_order' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="admin_farmer_generate_purchase_order" id="admin_farmer_generate_purchase_order" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                            <?php elseif($_REQUEST['type']=='quote is ready'):?>    
+                                <p>
+                                    Email template when quote is ready.
+                                </p>
+                                <p>
+                                <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'farmer_admin_quote' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="farmer_admin_quote" id="farmer_admin_quote" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                            <?php elseif($_REQUEST['type']=='user activation'):?>    
+                                <p>
+                                    Email template on user activation.
+                                </p>
+                                <p>
+                                 <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'farmer_admin_active' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="farmer_admin_active" id="farmer_admin_active" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                            <?php elseif($_REQUEST['type']=='completing purchase order'):?>    
+                                <p>
+                                    Email template on completing purchase order.
+                                </p>
+                                <p>
+                                <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'farmer_complete_order' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="farmer_complete_order" id="farmer_complete_order" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                             <?php endif;?>   
                             </div>
                             <div>
-                            	<br />
+                                <br />
                                 <input type="hidden" name="action" value="update" />
                                 <input type="submit" name="submit" class="form-button" value="Update"/>
                             </div>
@@ -150,15 +165,5 @@ $farmer_complete_order = get_option('farmer_complete_order');
 			</div><!-- #content -->
 			<div class="clr"></div>
 		</div><!-- #primary -->
-<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
-<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-<script type="text/javascript">
-	$("#tabs").tabs();
-</script>
-<script type="text/javascript" src="<?php bloginfo('template_directory')?>/js/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript">
-	tinyMCE.init({
-		mode : "textareas"
-	});
-</script>
+<script type="text/javascript" src="<?php bloginfo('template_directory')?>/js/ckeditor/ckeditor.js"></script>
 <?php get_footer(); ?>

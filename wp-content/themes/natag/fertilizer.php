@@ -59,13 +59,19 @@ if($submit == 'Submit')
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_status', 'pending');
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 
-	$to = get_option('admin_email');
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
 	$subject = "Fertilizer Request Notification";
-	$message = "You have recieve a new Fertilizer Request, Please check you Admin";
+	$message = get_option('admin_request_from_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$requestname','Fertilizer/Chemical',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
-	
 	header("Location:".$url."/?page_id=441");
 }
 elseif($submit == 'Save')
@@ -118,6 +124,7 @@ elseif($submit == 'Save')
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 	
 	header("Location:".$url."/?page_id=506");
 }
@@ -180,9 +187,9 @@ function confirmSubmit()
             <div style="text-align:left;">
 				<div style="width:91px; float:left;">Your name</div>
 				<div style="width:209px; float:left;">
-					<input type="text" name="fname" value="" style="width: 173px" > </div>
+					<input type="text" name="fname" value="" id="fname" style="width: 173px" > </div>
 				<div style="width:125px; float:left;">Your code number </div>
-				<div style="width:165px; float:left;"><input type="text" name="cname" value="" style="width:170px" ></div>
+				<div style="width:165px; float:left;"><input type="text" id="cname" name="cname" value="" style="width:170px" ></div>
 			</div>
 			 
 			<div style="text-align:left;clear:both;"><br />
@@ -192,7 +199,7 @@ function confirmSubmit()
 			<div style="text-align:left;">
 				<div style="width:91px; float:left;">Fertilizer</div>
 				<div style="width:209px; float:left;">
-					<input type="radio" name="fertilizer" value="Fertilizer" style="width: 173px" > </div>
+					<input type="radio" name="fertilizer" checked="checked" value="Fertilizer" style="width: 173px" > </div>
 				<div style="width:125px; float:left;">Chemical</div>
 				<div style="width:165px; float:left;"><input type="radio" name="fertilizer" value="Chemical" style="width:170px" ></div>
 			</div>
@@ -201,7 +208,7 @@ function confirmSubmit()
 				<div style="float:left;width: 184px; text-align:left;">
 				Item name/composition 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="item_name" value="" style="width: 410px" ></div>
+					<input type="text" id="item_name" name="item_name" value="" style="width: 410px" ></div>
 
 			</div>
 
@@ -211,7 +218,7 @@ function confirmSubmit()
 				Total amount needed    
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="total_amount" value="" style="width: 412px" ></div>
+					<input type="text" id="total_amount" name="total_amount" value="" style="width: 412px" ></div>
 
 			</div>
 			<div>
@@ -219,7 +226,7 @@ function confirmSubmit()
 				Packaged in quantities of
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="packaged" value="" style="width: 412px" ></div>
+					<input type="text" id="packaged" name="packaged" value="" style="width: 412px" ></div>
 
 			</div>
 			<div>
@@ -227,7 +234,7 @@ function confirmSubmit()
 				Delivery needed by  
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="delivery_date" style="width: 412px" ></div>
+					<input type="text" id="delivery_date" name="delivery_date" style="width: 412px" ></div>
 
 			</div>
 			
@@ -236,7 +243,7 @@ function confirmSubmit()
 				<div style="float:left;width: 184px; text-align:left;">
 				Quote needed by  				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="quote_date" style="width: 412px" ></div>
+					<input type="text" id="quote_date" name="quote_date" style="width: 412px" ></div>
 
 			</div>
 
@@ -246,7 +253,7 @@ function confirmSubmit()
 			<div style="clear:both;">
 				<div style="float:left;">How do you use: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bulk    </div>
 				<div style="float:left;">
-					<input name="use_fertilizer" type="radio" value="Bulk" style="width: 65px" /></div>
+					<input name="use_fertilizer" type="radio" checked="checked" value="Bulk" style="width: 65px" /></div>
 				<div style="float:left;">Need Tanks </div>
 				<div style="float:left;">
 					<input name="use_fertilizer" type="radio" value="Tanks" style="width: 64px" /></div>
@@ -263,7 +270,7 @@ function confirmSubmit()
 				Cost of application if applicable $ 
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="app_cost" value="" style="width: 412px" ></div>
+					<input type="text" id="app_cost" name="app_cost" value="" style="width: 412px" ></div>
 			</div>
 			
 			<div style="clear:both;">
@@ -289,7 +296,7 @@ function confirmSubmit()
 				My best local price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="best_price" value="" style="width: 412px" >
+					<input type="text" id="best_price" name="best_price" value="" style="width: 412px" >
                 </div>
 			</div>
 			</div>
@@ -298,27 +305,31 @@ function confirmSubmit()
 
 			<div style="text-align:left;clear:both;">
 				<strong>For official use only:</strong></div>
-            
-			
-			
 			
 			<div>
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
 				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
+				<div style="width:336px; float:left;" class="auto-style2">
 					<input type="text" name="quote_price" style="width: 121px" readonly="readonly" >
                 </div>
-
-
 			</div>
 
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
+			</div>
 			 
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
 			 For your own information, you should record <br />
 				 the date and time you initiated this inquiry.<br />
 				 <br>
-				 <input type="submit" class="form-button" name="submit" value="Save">&nbsp;<input class="form-button" type="submit" name="submit" value="Submit" onclick="return confirmSubmit();">&nbsp;<input type="reset" class="form-button" name="submit" value="Cancel">
+				 <input type="submit" class="form-button" name="submit" value="Save">&nbsp;
+                 <input class="form-button" type="submit" name="submit" value="Submit" onclick="return validate_fert();">
+                 &nbsp;<input type="reset" class="form-button" name="submit" value="Cancel">
 			 </div>
 			 
 			 

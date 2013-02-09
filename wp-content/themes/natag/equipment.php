@@ -63,13 +63,20 @@ if($submit == 'Submit')
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_status', 'pending');
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 
-	$to = get_option('admin_email');
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
 	$subject = "Equipment Request Notification";
-	$message = "You have recieve a new Equipment Request, Please check you Admin";
+	$message = get_option('admin_request_from_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$requestname','Equipment',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
-	
+
 	header("Location:".$url."/?page_id=441");
 }
 elseif($submit == 'Save')
@@ -125,6 +132,7 @@ elseif($submit == 'Save')
 	add_post_meta($post_id, 'add_info', $add_info);
 	add_post_meta($post_id, 'form_submit', $submit);
 	add_post_meta($post_id, 'request_date', date('m/d/Y'));
+	add_post_meta($post_id, 'freight', $freight);
 	
 	header("Location:".$url."/?page_id=506");
 }
@@ -188,9 +196,9 @@ function confirmSubmit()
             <div style="text-align:left;">
                 <div style="width:91px; float:left;">Your name</div>
                 <div style="width:209px; float:left;">
-                    <input type="text" style="width: 173px" name="fname" value="" > </div>
+                    <input type="text" style="width: 173px" name="fname" id="fname" value="" > </div>
                 <div style="width:125px; float:left;">Your code number </div>
-                <div style="width:165px; float:left;"><input type="text" style="width:170px" name="cname" value="" ></div>
+                <div style="width:165px; float:left;"><input type="text" style="width:170px" name="cname" id="cname" value="" ></div>
             </div>                                 
 
 			<div style="text-align:left;clear:both;"><br />
@@ -201,14 +209,14 @@ function confirmSubmit()
 				How Many 
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" style="width: 412px" name="equip_count" value="" ></div>
+					<input type="text" style="width: 412px" id="equip_count" name="equip_count" value="" ></div>
 			</div>
 
 			<div>
 				<div style="float:left;width: 184px; text-align:left;">
 				Brand preference (if any) 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" style="width: 410px" name="bpreference" value="" ></div>
+					<input type="text" style="width: 410px" name="bpreference" id="bpreference" value="" ></div>
 			</div>
 
 			<div>
@@ -216,7 +224,7 @@ function confirmSubmit()
 				Item name   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" style="width: 412px" name="item_name" value="" ></div>
+					<input type="text" style="width: 412px" name="item_name" id="item_name" value="" ></div>
 			</div>
 
 			<div>
@@ -224,35 +232,35 @@ function confirmSubmit()
 				Model name/number  
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" style="width: 412px" name="model_name" value="" ></div>
+					<input type="text" style="width: 412px" name="model_name" value="" id="model_name" ></div>
 			</div>
 
 			<div style="text-align:left;">
 				<div style="width:91px; float:left;">Size</div>
 				<div style="width:209px; float:left;">
-					<input type="text" style="width: 173px" name="equip_size" value="" > </div>
+					<input type="text" style="width: 173px" name="equip_size" value="" id="equip_size" > </div>
 				<div style="width:125px; float:left;">Capacity</div>
-				<div style="width:165px; float:left;"><input type="text" style="width:170px" name="capacity" value="" ></div>
+				<div style="width:165px; float:left;"><input type="text" style="width:170px" name="capacity" id="capacity" value="" ></div>
 			</div>
 
 			<div style="clear:both;">
 				<div style="float:left;">Powered by: PTO/RM  </div>
 				<div style="float:left;">
-					<input name="powered_by" value="" type="text" style="width: 65px" /></div>
+					<input name="powered_by" value="" type="text"  id="powered_by" style="width: 65px" /></div>
 				<div style="float:left;">Gas/HP</div>
 				<div style="float:left;">
-					<input name="gas" value="" type="text" style="width: 80px" /></div>
+					<input name="gas" value="" type="text" style="width: 80px"  id="gas"/></div>
 				<div style="float:left;">Electric/HP </div>
 				<div style="float:left;">
-					<input name="electric" value="" type="text" style="width: 80px" /></div>
+					<input name="electric" value="" type="text" id="electric" style="width: 80px" /></div>
 				<div style="float:left;">Diesel/HP </div>
 				<div style="float:left;">
-					<input name="diesel" value="" type="text" style="width: 80px" /></div>
+					<input name="diesel" value="" type="text" id="diesel" style="width: 80px" /></div>
 			</div>
 
             <div style="clear:both;"></div>
 
-			<div style="width:100%;text-align:left;">Do you want New or Used. <input type="radio" name="equip_type" value="New">New &nbsp; <input type="radio" name="equip_type" value="Used">Used</div>
+			<div style="width:100%;text-align:left;">Do you want New or Used. <input type="radio" id="equip_type" name="equip_type" value="New" checked="checked">New &nbsp; <input type="radio"  id="equip_type" name="equip_type" value="Used">Used</div>
 
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
@@ -275,7 +283,7 @@ function confirmSubmit()
 				My best local price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
-					<input type="text" name="local_price" value="" style="width: 412px" ></div>
+					<input type="text" name="local_price" value="" id="local_price" style="width: 412px" ></div>
 			</div>
             <div style="clear:both;"></div>
 
@@ -287,15 +295,25 @@ function confirmSubmit()
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
 				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
+				<div style="width:336px; float:left;" class="auto-style2">
 					<input type="text" style="width: 121px" readonly="readonly" name="national_price" value="" ></div>
+			</div>
+
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
 			</div>
 
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
 			 <br />For your own information, you should record <br />
 				 the date and time you initiated this inquiry.<br />
 				 <br>
-				 <input type="submit" name="submit" value="Save" class="form-button">&nbsp;<input class="form-button" type="submit" name="submit" value="Submit" onclick="return confirmSubmit();">&nbsp;<input type="reset" name="submit" value="Cancel" class="form-button">
+				 <input type="submit" name="submit" value="Save" class="form-button">&nbsp;
+                 <input class="form-button" type="submit" name="submit" value="Submit" onclick="return validate_equip();">
+                 &nbsp;<input type="reset" name="submit" value="Cancel" class="form-button">
  			 </div>
                     <!--  ARTICLE BOX ENDS  -->	
 		</div>

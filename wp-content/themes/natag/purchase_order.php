@@ -110,7 +110,7 @@ foreach ( $myrows as $myterms )
                                     </li>
                                     <li class="second"><?php echo get_post_meta($id,'part_descpt',true); ?></li>
                                     <li class="third"><?php echo get_post_meta($id,'each_price',true); ?></li>
-                                    <li class="fourth last" id="total_price"><?php echo get_post_meta($id,'total_price',true); ?></li>
+                                    <li class="fourth last" id="total_price"><?php echo get_post_meta($id,'sub_price',true); ?></li>
                                 </ul>
                                 <div class="clear"></div>
                                 <ul class="instruction">

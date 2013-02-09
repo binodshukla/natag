@@ -116,7 +116,9 @@ endif;
                                 <ul class="gallery clearfix">
                                     <li><a href="#inline_demo2" rel="prettyPhoto[inline]">All Request for Price</a></li>
                                     <li><a href="<?php echo get_option('siteurl')?>/?page_id=544">All List of Orders</a></li>
-                                    <li><a href="<?php echo get_option('siteurl')?>/?page_id=549">Update Notification Messages</a></li>
+                                    <li><a href="#inline_demo3" rel="prettyPhoto[inline]">Manage Administrator Email Templates</a></li>
+                                    <li><a href="#inline_demo4" rel="prettyPhoto[inline]">Manage User Email Templates</a></li>
+                                    <li><a href="<?php echo get_option('siteurl')?>/?page_id=563">List of Users</a></li>
                                 </ul>
                                 <div id="inline_demo2" style="display:none;">
                                 	<p>All Request for Price:</p>
@@ -189,6 +191,20 @@ endif;
                                         &nbsp;(<?php echo $num_tyre?>&nbsp;Pending)
                                     </p>
                                 </div>
+                                 <div id="inline_demo3" style="display:none;">
+                                 <p>
+                                 	<a href="<?php echo get_option('siteurl')?>/?page_id=549&type=request for estimation">Email template for request for estimation</a><br />
+                                    <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=new user registration">Email template for new user registration</a><br />
+                                    <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=generating purchase order">Email template on generating purchase order</a><br />
+                                 </p>
+                                 </div>
+                                 <div id="inline_demo4" style="display:none;">
+                                 <p>
+                                 	<a href="<?php echo get_option('siteurl')?>/?page_id=549&type=quote is ready">Email template for request for estimation</a><br />
+                                    <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=user activation">Email template for new user registration</a><br />
+                                    <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=completing purchase order">Email template on order placed</a><br />
+                                 </p>
+                                 </div>
                                <?php
 								}
 								else

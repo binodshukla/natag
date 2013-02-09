@@ -29,8 +29,9 @@ if($submit == 'Save')
 	update_post_meta($_REQUEST['post_id'], 'price_quote', $price_quote); 
 	update_post_meta($_REQUEST['post_id'], 'saved_offer', $saved_offer);
 	update_post_meta($_REQUEST['post_id'], 'add_info', $add_info);
+	update_post_meta($post_id, 'freight', $freight);
 	
-	header("Location:".$url."/?page_id=455&type=supplies");
+	header("Location:".$url."/?page_id=506");
 }
 elseif($submit == 'Submit')
 {
@@ -56,13 +57,22 @@ elseif($submit == 'Submit')
 	update_post_meta($_REQUEST['post_id'], 'add_info', $add_info);
 	update_post_meta($_REQUEST['post_id'], 'form_submit', $submit);
 	add_post_meta($_REQUEST['post_id'], 'request_status', 'pending');
-	
-	$to = get_option('admin_email');
-	$subject = "Supplies Request Notification";
-	$message = "You have recieve a new Supplies Request, Please check you Admin";
+	update_post_meta($post_id, 'freight', $freight);
+
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
+	$subject = "Suppliers Request Notification";
+	$message = get_option('admin_request_from_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$requestname','Suppliers',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
-	header("Location:".$url."/?page_id=455&type=supplies");
+
+	header("Location:".$url."/?page_id=441");
+	//header("Location:".$url."/?page_id=455&type=supplies");
 }
 ?>
 
@@ -115,18 +125,14 @@ elseif($submit == 'Submit')
 		
 		</div></div>
 			<div id="contentinn" role="main">
-			
-					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-					        	
-							<h3><?php /* Page Title */
+						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+							<h3>
+								<?php /* Page Title */
    							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
-<?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>
-							
-					      	<?php /* Page Content */  the_content(); ?>				
-							<?php endwhile; else: ?>
-						<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+								<?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?>
+                            </h3>
+						<?php endwhile;?>
 						<?php endif; ?>
-						
 					      <!--  ARTICLE BOX STARTS  -->
 	<center>
 <?php
@@ -233,24 +239,7 @@ elseif($submit == 'Submit')
 					<input type="text" name="best_price" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> value="<?php echo get_post_meta($id,'best_price',true); ?>" style="width: 412px" ></div>
 
 			</div>
-
-				
-			
 			</div>
-			
-			
-			
-			<div>
-				<div style="float:left;width: 203px; text-align:left;">
-				National Ag Price Quote $ 
-				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
-					<input type="text" readonly="readonly" name="price_quote" value="<?php echo get_post_meta($id,'price_quote',true); ?>" style="width: 121px" ></div>
-			</div>
-
-			 
-			 
-		
 
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
@@ -261,6 +250,29 @@ elseif($submit == 'Submit')
 
 			</div>
 	 
+            <div style="clear:both;"></div>
+
+			<div style="text-align:left;clear:both;">
+				<strong>For official use only:</strong>
+            </div>
+
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				National Ag Price Quote $ 
+				</div>
+				<div style="width:336px; float:left;" class="auto-style2">
+					<input type="text" readonly="readonly" name="price_quote" value="<?php echo get_post_meta($id,'price_quote',true); ?>" style="width: 121px" ></div>
+			</div>
+
+			 
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
+			</div>
+
 			 
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
              	<?php 
@@ -270,9 +282,9 @@ elseif($submit == 'Submit')
                     <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id']?>">
                     <input type="hidden" name="user_id" value="<?php echo $post_author?>">				
                     <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id'] ?>">
-                    <input type="submit" name="submit" value="Submit" onclick="return confirm('Are you sure want to submit ?')">
-                    <input type="submit" name="submit" value="Save">
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+                    <input type="submit" class="form-button" name="submit" value="Submit" onclick="return confirm('Are you sure want to submit ?')">
+                    <input type="submit" class="form-button" name="submit" value="Save">
+					<input type="button" class="form-button" name="button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
 				}
 				elseif(get_post_meta($id,'request_status',true) == 'completed')
@@ -280,22 +292,22 @@ elseif($submit == 'Submit')
 					if($id != $parent_id)
 					{
 				?>
-					<input type="button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $_REQUEST['post_id']?>'" value="Generate Purchase Order">
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+					<input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $_REQUEST['post_id']?>'" value="Generate Purchase Order">
+					<input type="button" class="form-button" name="button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
 					}
 					else
 					{
 				?>
                 	<strong>Purchase Order Already Generated</strong>&nbsp;
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+					<input type="button" class="form-button" name="button" onClick="javascript:history.go(-1)" value="Back">
                 <?php		
 					}
 				}
 				else
 				{
 				?>
-					<input type="button" name="button" onClick="javascript:history.go(-1)" value="Back">
+					<input type="button" name="button"  class="form-button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
                 }
 				?>

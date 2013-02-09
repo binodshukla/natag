@@ -98,10 +98,28 @@ if($submit == 'Submit')
 	add_post_meta($post_id, 'total_price', $_POST['totalp']); 
 	add_post_meta($post_id, 'special_inst', $_POST['spe_inst']);
 
-	$to = get_option('admin_email');
+	$user_info = get_userdata($user_id);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
 	$subject = "Purchase order Notification";
-	$message = "You have recieve a new Purchase order request, Please check you Admin panel";
+	$message = get_option('admin_farmer_generate_purchase_order');
+	$message = str_replace('$name',$uname,$message);
+	//$message = str_replace('$requestname','Equipment',$message);
 	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$mail = mail( $to, $subject, $message, $headers);
+
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
+	$subject = "Purchase order Notification";
+	$message = get_option('admin_farmer_generate_purchase_order');
+	$message = str_replace('$name',$uname,$message);
+	//$message = str_replace('$requestname','Equipment',$message);
+	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
 	
 	header("Location:".$url."/?page_id=540&post_id=".$post_id);
@@ -124,7 +142,7 @@ foreach ( $myrows as $myterms )
         <input type="hidden" name="post_type" value="<?php echo $post_type;?>" />
         <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id'];?>" />
         <input type="hidden" name="purchase_descpt" value="<?php echo $post_content;?>" />
-		<div id="primaryinn2">
+		<div id="primaryinn">
 			<div id="contentinn2" role="main">
 					      <!--  ARTICLE BOX STARTS  -->
                 <div id="wrapper-inner">
@@ -182,7 +200,7 @@ foreach ( $myrows as $myterms )
                                     </li>
                                     <li>
                                         <div class="ship">
-                                            <label>FREIGHT :</label><input type="text" name="freight" value="" size=40 />
+                                            <label>FREIGHT :</label><input type="text" name="freight" value="<?php echo get_post_meta($id,'freight',true);?>" size=40 />
                                             <label>INCLUDED :</label><input type="checkbox" name="inc" value="include" id="chck_1" />
                                             <label>COD :</label><input type="checkbox" name="cod" id="chck_2" value="cod" />
                                             <label>PREPAID :</label><input type="checkbox" name="prepaid" id="chck_3" value="prepaid" />
@@ -207,12 +225,14 @@ foreach ( $myrows as $myterms )
                                 <div class="clear"></div>
                                 <ul class="row_1">
                                     <li class="first">
-                                        <select name="quantity" class="select" onchange="ajax_cal_total('<?php echo get_option('siteurl')?>/?page_id=497',this.value,'<?php echo trim(get_post_meta($id,'price_quote',true))?>','total_price','total_prices')">
+                                        <!--<select name="quantity" class="select" onchange="ajax_cal_total('<?php echo get_option('siteurl')?>/?page_id=497',this.value,'<?php echo trim(get_post_meta($id,'price_quote',true))?>','total_price','total_prices')">
                                         <?php
 											$quantityArray = array(0,1,2,3,4,5,6,7,8,9,10);
 											$total_amount = trim(get_post_meta($id,'quantity',true));
 											$quote_price = trim(get_post_meta($id,'price_quote',true));
-											$total_price = $total_amount*$quote_price;
+											$freight = trim(get_post_meta($id,'freight',true));
+											$subtotal_price = $total_amount*$quote_price;
+											$total_price = ($total_amount*$quote_price)+$freight;
 											foreach($quantityArray as $qa)
 											{
 												if($qa == trim(get_post_meta($id,'quantity',true)))
@@ -225,11 +245,12 @@ foreach ( $myrows as $myterms )
 												}
 											}
 										?>
-                                        </select> 
+                                        </select> -->
+                                        <input type="text" size="5" readonly="readonly" value="<?php echo trim(get_post_meta($id,'quantity',true));?>" name="quantity" />
                                     </li>
                                     <li class="second"><?php echo $post_content;?></li>
                                     <li class="third"><input type="text" name="quote_price"  readonly="readonly" value="<?php echo get_post_meta($id,'price_quote',true);?>" size=20 /></li>
-                                    <li class="fourth last" id="total_price"><input type="text" name="subtotal_price"  readonly="readonly" value="<?php echo $total_price?>" size=20 /></li>
+                                    <li class="fourth last" id="total_price"><input type="text" name="subtotal_price"  readonly="readonly" value="<?php echo $subtotal_price?>" size=20 /></li>
                                 </ul>
                                 <div class="clear"></div>
                                 <ul class="instruction">
@@ -239,7 +260,7 @@ foreach ( $myrows as $myterms )
 <!--                                            <li class="third">SUBTOTAL</li>
                                             <li class="fourth last"><input type="text" name="subtotal_price"  readonly="readonly" value="<?php echo $total_price?>" size=20 /></li>
 -->                                            <li class="third">FREIGHT</li>
-                                            <li class="fourth last"><input type="text" readonly="readonly" name="frt" size=20  value=""/></li>
+                                            <li class="fourth last"><input type="text" readonly="readonly" name="frt" size=20  value="<?php echo get_post_meta($id,'freight',true);?>"/></li>
                                             <li class="third">TOTAL</li>
                                             <li class="fourth last" id="total_prices"><input type="text" readonly="readonly" name="totalp" size=20 value="<?php echo $total_price?>" /></li>
                                         </ul>					

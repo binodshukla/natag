@@ -40,6 +40,7 @@ if($submit == 'Send')
 	update_post_meta($_REQUEST['post_id'], 'add_info', $add_info);
 	update_post_meta($_REQUEST['post_id'], 'form_submit', $submit);
 	update_post_meta($_REQUEST['post_id'], 'request_status', 'completed');
+	update_post_meta($post_id, 'freight', $freight);
 	
 	$email_not = get_user_meta($_REQUEST['user_id'], "email_not", true);
 	$sms_not = get_user_meta($_REQUEST['user_id'], "sms_not", true);
@@ -50,9 +51,14 @@ if($submit == 'Send')
 		{
 			$user_info = get_userdata($_REQUEST['user_id']);
 			$to = $user_info->user_email;
-			$subject = "Tire Request";
-			$message = get_option('tire_price_message');
+			$uname = ucfirst($user_info->user_nicename);
+			$subject = "Tire Quote Request Completed";
+			$message = get_option('farmer_admin_quote');
+			$message = str_replace('$name',$uname,$message);
+			$message = str_replace('$requestname','Equipment',$message);
 			$headers = 'From: National AG';
+			$headers  .= 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 			$mail = mail( $to, $subject, $message, $headers);
 		}
 		if($sms_not == 'SMS')
@@ -97,6 +103,14 @@ if($submit == 'Send')
 		
 		</div>
 			<div id="contentinn" role="main">
+						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+							<h3>
+								<?php /* Page Title */
+   							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
+								<?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?>
+                            </h3>
+						<?php endwhile;?>
+						<?php endif; ?>
 					      <!--  ARTICLE BOX STARTS  -->
 	<center>
 <?php
@@ -262,16 +276,24 @@ if($submit == 'Send')
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
 				</div>
-				<div style="width:136px; float:left;" class="auto-style2">
+				<div style="width:336px; float:left;" class="auto-style2">
 					<input type="text"  name="price_quote" value="<?php echo get_post_meta($id,'price_quote',true); ?>" style="width: 121px" >
                 </div>
 			</div>
-			 
+
+			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Freight 
+				</div>
+				<div style="width:136px; float:left;" class="auto-style2">
+					<input type="text" style="width: 121px" name="freight" value="<?php echo get_post_meta($id,'freight',true); ?>" ></div>
+			</div>
+
 			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
                     <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id']?>">
                     <input type="hidden" name="user_id" value="<?php echo $post_author?>">
                     <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id'] ?>">			
-                    <input type="submit" name="submit" value="Send">
+                    <input type="submit" name="submit" class="form-button" value="Send">
 			 </div>
 			 
 			 
