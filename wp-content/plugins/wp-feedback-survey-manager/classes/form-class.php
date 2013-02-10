@@ -147,7 +147,12 @@ class wp_feedback_form {
                 'date' => $pinfo['date'],
             ), array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'))) {
                 $this->send_notification_email($this->global['email'], $pinfo, $wpdb->insert_id);
-                $return['msg'] = '<div class="wp_feedback_msg" id="wp_feedback_success"><h4>' . __('Your feedback was successfully submitted', 'fbsr') . '</h4><p>' . htmlspecialchars_decode($this->global['success_message']) . '</p></div>';
+				
+				get_currentuserinfo();
+				$accept_query = "update ".$wpdb->prefix."send_feedback set feedback_status = 1 where user_id = ".$current_user->ID;
+				$wpdb->query($accept_query);
+                
+				$return['msg'] = '<div class="wp_feedback_msg" id="wp_feedback_success"><h4>' . __('Your feedback was successfully submitted', 'fbsr') . '</h4><p>' . htmlspecialchars_decode($this->global['success_message']) . '</p></div>';
                 $return['type'] = 'success';
             } else {
                 $return['msg'] = '<div class="wp_feedback_msg" id="wp_feedback_error"><h4>' . __('Could not save to the database', 'fbsr') . '</h4><p>' . __('Something terrible has occured. Please contact the administrator.', 'fbsr') . '<ul>';

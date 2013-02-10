@@ -9,8 +9,24 @@ ob_start();
 get_header(); 
 if($_GET['message_id'])
 {	
-	$decline_query = "update wp_send_feedback set feedback_status = 2 where id = ".$_GET['message_id'];
+	$decline_query = "update ".$wpdb->prefix."send_feedback set feedback_status = 2 where id = ".$_GET['message_id'];
 	$wpdb->query($decline_query);
+	
+	// Start Mailing
+	$feedback_query = "select * from ".$wpdb->prefix."send_feedback where id = ".$_GET['message_id'];
+	$feedback_data = $wpdb->get_results($feedback_query);
+	
+	$user_id = $feedback_data[0]->user_id;
+	$user_info = get_userdata($user_id);
+	$to = $user_info->user_email;
+	$name = ucfirst($user_info->display_name);
+	$subject = $name." declined survey";
+	$message = $name." declined the survey.";
+	
+	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$mail = mail( $to, $subject, $message, $headers);
 }
 ?>
 <div id="primaryinn">
