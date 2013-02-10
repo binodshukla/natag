@@ -71,7 +71,7 @@
         <tr>
             <td colspan="2">
             	<div id="poststuff">
-					<?php the_editor('<h2>Enter Message Here</h2>','content'); ?>
+					<?php the_editor('<h2>Hello $name</h2><br />Enter Your Message Here','content'); ?>
                 </div>
             </td>
         </tr>
