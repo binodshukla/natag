@@ -18,7 +18,7 @@ if($_GET['message_id'])
 	
 	$user_id = $feedback_data[0]->user_id;
 	$user_info = get_userdata($user_id);
-	$to = $user_info->user_email;
+	$to = get_settings('admin_email');
 	$name = ucfirst($user_info->display_name);
 	$subject = $name." declined survey";
 	$message = $name." declined the survey.";
