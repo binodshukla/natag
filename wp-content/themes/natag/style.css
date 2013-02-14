@@ -201,6 +201,15 @@ width:204px;
 	float:left;
 	margin-left: 5px;
 }
+#social_area  .googleplus
+{
+	background: url("images/googleplus.png");	
+	width:30px;
+	height:30px;
+	float:left;
+	margin-left: 5px;
+}
+
 #social_area  .member_section
 {
 	background: url("images/member_login.png");	

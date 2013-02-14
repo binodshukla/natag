@@ -120,10 +120,38 @@
 			<?php } ?>
 				
 				<div id="social_area">
-					<a href="#"><div class="vimeo"></div></a>
-					<a href="#"><div class="linkedin"></div></a>
-					<a href="#"><div class="facebook"></div></a>
-					<a href="#"><div class="twitter"></div></a>
+                	<?php
+					if(get_option('youtube_url'))
+					{
+					?>
+						<a href="<?php echo get_option('youtube_url'); ?>" target="_blank"><div class="vimeo"></div></a>
+                    <?php
+					}
+					if(get_option('linkedin_url'))
+					{
+					?>
+						<a href="<?php echo get_option('linkedin_url'); ?>" target="_blank"><div class="linkedin"></div></a>
+                    <?php
+					}
+					if(get_option('facebook_url'))
+					{
+					?>
+						<a href="<?php echo get_option('facebook_url'); ?>" target="_blank"><div class="facebook"></div></a>
+                    <?php
+					}
+					if(get_option('twitter_url'))
+					{
+					?>
+						<a href="<?php echo get_option('twitter_url'); ?>" target="_blank"><div class="twitter"></div></a>
+                    <?php
+					}
+					if(get_option('googleplus_url'))
+					{
+					?>
+                    	<a href="<?php echo get_option('googleplus_url'); ?>" target="_blank"><div class="googleplus"></div></a>
+                    <?php
+					}
+					?>
                     <?php if ( is_user_logged_in() ) {?>
 					<a href="<?php bloginfo('url');?>/?page_id=140"><div class="member_dash"></div></a>
                     <?php }else{ ?>

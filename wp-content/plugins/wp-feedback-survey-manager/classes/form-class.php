@@ -148,8 +148,7 @@ class wp_feedback_form {
             ), array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'))) {
                 $this->send_notification_email($this->global['email'], $pinfo, $wpdb->insert_id);
 				
-				get_currentuserinfo();
-				$accept_query = "update ".$wpdb->prefix."send_feedback set feedback_status = 1 where user_id = ".$current_user->ID;
+				$accept_query = "update ".$wpdb->prefix."send_feedback set feedback_status = 1 where user_id = ".get_current_user_id();
 				$wpdb->query($accept_query);
                 
 				$return['msg'] = '<div class="wp_feedback_msg" id="wp_feedback_success"><h4>' . __('Your feedback was successfully submitted', 'fbsr') . '</h4><p>' . htmlspecialchars_decode($this->global['success_message']) . '</p></div>';
