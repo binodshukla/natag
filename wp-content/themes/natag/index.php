@@ -33,8 +33,8 @@
 					<div id="content">
 						
 						<div class="ss2_wrapper">
-						
-										<?include (ABSPATH . '/wp-content/plugins/coin-slider-4-wp/coinslider.php'); ?> 
+						<?php if (function_exists('slideshow')) { slideshow($output = true, $post_id = false, $gallery_id = false, $params = array()); } ?>
+										<!--<?include (ABSPATH . '/wp-content/plugins/coin-slider-4-wp/coinslider.php'); ?> -->
 										 
 						</div>
 													
