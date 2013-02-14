@@ -51,16 +51,16 @@ get_header(); ?>
 			<div id="contentinn" role="main">
 			
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-					        	
-							<h3><?php /* Page Title */ the_title(); ?></h3>
+					<!--<img src="<?php echo $headimg; ?>" height="143" width="629" />-->
+<h3><?php /* Page Title */ the_title(); ?></h3>
   
                               <?php /* Page Image */
 							  $headimg = get_post_meta($post->ID, 'pageimageurl', true); ?>
-<?php if (!empty($headimg)){ ?> <img src="<?php echo $headimg; ?>" height="143" width="629" /> <?php } ?>    
+<?php if (!empty($headimg)){ ?><?php } ?>    
 							
 					      	<?php /* Page Content */  the_content(); ?>				
 							<?php endwhile; else: ?>
-						<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+    <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 						<?php endif; ?>
 						
 					      <!--  ARTICLE BOX STARTS  -->

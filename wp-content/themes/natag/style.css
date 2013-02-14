@@ -641,8 +641,8 @@ margin-top:50px;
 }
 
 .photo1{
-	background: url("images/photo1.jpg");	
-	background-repeat:no-repeat;
+	/*background: url("images/photo1.jpg");	
+	background-repeat:no-repeat;*/
 	width:204px;
 	height:204px;
 	border:3px solid #c2b7b7;
@@ -652,8 +652,8 @@ margin-top:50px;
 }
 
 .photo2{
-	background: url("images/photo2.jpg");	
-	background-repeat:no-repeat;
+	/*background: url("images/photo2.jpg");	
+	background-repeat:no-repeat;*/
 	width:204px;
 	height:204px;
 	border:3px solid #c2b7b7;
@@ -662,8 +662,8 @@ margin-top:50px;
 	
 }
 .photo3{
-	background: url("images/photo3.jpg");	
-	background-repeat:no-repeat;
+	/*background: url("images/photo3.jpg");	
+	background-repeat:no-repeat;*/
 	width:60px;
 	height:60px;
 	border:3px solid #c2b7b7;
