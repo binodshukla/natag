@@ -122,7 +122,8 @@ if($submit == 'Submit')
 	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
 	
-	header("Location:".$url."/?page_id=540&post_id=".$post_id);
+	//header("Location:".$url."/?page_id=540&post_id=".$post_id);
+	header("Location:".$url."/?page_id=629");
 
 }
 $user_id = get_current_user_id();
@@ -141,7 +142,7 @@ foreach ( $myrows as $myterms )
 		<form name="purchase" action="" method="post">
         <input type="hidden" name="post_type" value="<?php echo $post_type;?>" />
         <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id'];?>" />
-        <input type="hidden" name="purchase_descpt" value="<?php echo $post_content;?>" />
+        <input type="hidden" name="purchase_descpt" value="<?php echo $post_type;?>" />
 		<div id="primaryinn">
 			<div id="contentinn2" role="main">
 					      <!--  ARTICLE BOX STARTS  -->
@@ -200,7 +201,7 @@ foreach ( $myrows as $myterms )
                                     </li>
                                     <li>
                                         <div class="ship">
-                                            <label>FREIGHT :</label><input type="text" name="freight" value="<?php echo get_post_meta($id,'freight',true);?>" size=40 />
+                                            <label>FREIGHT :</label><input type="text" name="freight" value="<?php echo get_post_meta($id,'freight',true);?>" size="40" readonly="readonly" />
                                             <label>INCLUDED :</label><input type="checkbox" name="inc" value="include" id="chck_1" />
                                             <label>COD :</label><input type="checkbox" name="cod" id="chck_2" value="cod" />
                                             <label>PREPAID :</label><input type="checkbox" name="prepaid" id="chck_3" value="prepaid" />
@@ -246,9 +247,9 @@ foreach ( $myrows as $myterms )
 											}
 										?>
                                         </select> -->
-                                        <input type="text" size="5" readonly="readonly" value="<?php echo trim(get_post_meta($id,'quantity',true));?>" name="quantity" />
+                                        <input type="text" size="2" readonly="readonly" value="<?php echo trim(get_post_meta($id,'quantity',true));?>" name="quantity" />
                                     </li>
-                                    <li class="second"><?php echo $post_content;?></li>
+                                    <li class="second"><?php echo ucfirst($post_type);?></li>
                                     <li class="third"><input type="text" name="quote_price"  readonly="readonly" value="<?php echo get_post_meta($id,'price_quote',true);?>" size=20 /></li>
                                     <li class="fourth last" id="total_price"><input type="text" name="subtotal_price"  readonly="readonly" value="<?php echo $subtotal_price?>" size=20 /></li>
                                 </ul>
@@ -270,7 +271,7 @@ foreach ( $myrows as $myterms )
                                 <div class="clear"></div>
                             </div>			
                             <!-- Particulars End -->	
-                <br>	
+                <br>		
                             <div class="customer_address">
                                 <ul>
                                     <li>

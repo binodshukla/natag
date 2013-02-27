@@ -137,7 +137,7 @@ if($submit == 'Send')
 				$post_date=$myterms->post_date;
 				$post_content=$myterms->post_content;
 ?>
-    	<form action="" method="post" name="fertrequest" onsubmit="return confirm('Are you sure you want to submit?')">
+    	<form action="" method="post" name="fertrequest" onsubmit="return confirm('Are you sure you want to Send ?')">
 	 	<div style="border: 1px dotted #C0C0C0; width: 600px; padding-right: 30px; padding-left: 20px; padding-bottom: 50px;font-family:Arial, Helvetica, sans-serif;font-size:12px;">  
             <div style="text-align:left;">
 				<div style="width:91px; float:left;">Your name</div>
@@ -254,7 +254,7 @@ if($submit == 'Send')
 				
 					<div>
 				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
+				Client's price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" name="best_price" value="<?php echo get_post_meta($id,'best_price',true); ?>" style="width: 412px" ></div>

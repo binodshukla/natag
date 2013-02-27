@@ -93,6 +93,11 @@ elseif($submit == 'Save')
 	header("Location:".$url."/?page_id=506");
 	//header("Location:".$url."/?page_id=455&type=tire");
 }
+elseif($submit == "Generate Purchase Order")
+{
+	$url = get_option('siteurl');
+	header("Location:".$url."/?page_id=494&post_id=".$_REQUEST['post_id']);
+}
 ?>
 
 		<div id="primaryinn">
@@ -295,7 +300,7 @@ elseif($submit == 'Save')
 			<div>
             <div>
 				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
+				Client's price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" <?php if($post_status=='sent' || $post_status=='publish'){ echo 'readonly="readonly"';}?> name="best_price" value="<?php echo get_post_meta($id,'best_price',true); ?>" style="width: 412px">
@@ -323,10 +328,10 @@ elseif($submit == 'Save')
 				Freight 
 				</div>
 				<div style="width:136px; float:left;" class="auto-style2">
-					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="" ></div>
+					<input type="text" style="width: 121px" readonly="readonly" name="freight" value="<?php echo get_post_meta($id,'freight',true);?>" ></div>
 			</div>
 
-			 <div style="background-image: url('<?php bloginfo('template_directory'); ?>/images/Form_Fotter.jpg'); height: 150px; clear:both;">
+			 <div style="height:50px; clear:both;">
              	<?php 
 				if(get_post_meta($id,'form_submit',true) == 'Save')
 				{	
@@ -344,7 +349,8 @@ elseif($submit == 'Save')
 					if($id != $parent_id)
 					{
 				?>
-					<input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $_REQUEST['post_id']?>'" value="Generate Purchase Order">
+					<input type="submit" class="form-button" name="submit" value="Generate Purchase Order">
+					 <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id'] ?>">
 					<input type="button" class="form-button" name="button" onClick="javascript:history.go(-1)" value="Back">
                 <?php
 					}
@@ -365,7 +371,25 @@ elseif($submit == 'Save')
 				?>
 			 </div>
 			 
-			 
+				<?php
+                if(get_post_meta($id,'request_status',true) == 'completed')
+                {
+					if($id != $parent_id)
+					{
+				?>
+                <div class="customer_address">
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="terms" required="required" value="1" />
+                            By checking this box you agree to the 
+                            <a href="<?php bloginfo('url')?>/?page_id=731/">Terms and conditions</a>
+                        </li>
+                    </ul>
+                </div>			
+                <?php
+					}
+				}
+				?>		
 			 
 			 
 		</div>

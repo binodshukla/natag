@@ -218,7 +218,7 @@ function confirmSubmit()
 			
 			<div style="clear:both;">
 				<div style="float:left;width: 184px; text-align:left;">
-				Additional information or description (if needed)   
+				For additional items please provide (Qty, item, local price)   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<textarea name="add_descpt"  style="width: 410px; height: 67px"></textarea></div>
@@ -238,7 +238,7 @@ function confirmSubmit()
 			<div>
             <div>
 				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
+				Client's price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" id="best_price" name="best_price" value="" style="width: 412px" >

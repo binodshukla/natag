@@ -67,9 +67,9 @@ get_header();
 		</div>
 			<div id="contentinn" role="main">
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-							<h3><?php /* Page Title */
+							<!--<h3><?php /* Page Title */
    							   $headtxt = get_post_meta($post->ID, 'custometitle', true); ?>
-                               <?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>
+                               <?php if (!empty($headtxt)){echo $headtxt;}else { the_title();} ?></h3>-->
   
                            <!-- <div id="adtopbar">
 								<!--<?php if ( is_user_logged_in() ) {?>
@@ -90,7 +90,7 @@ get_header();
 								{
 							   ?>
                                 <ul class="gallery clearfix">
-                                    <li>Your request for estimate is save now</li>
+                                    <li>Your request for estimate has been saved</li>
                                     <li><a href="<?php bloginfo('url');?>/?page_id=140">Click Here</a> to proceed to your Dashboard</li>
                                 </ul>
 							 <?php } } ?>

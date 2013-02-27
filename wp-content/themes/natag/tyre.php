@@ -314,7 +314,7 @@ function confirmSubmit()
 			<div>
             <div>
 				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
+				Client's price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text" id="best_price"  name="best_price" value="" style="width: 412px">

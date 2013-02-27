@@ -63,19 +63,19 @@ foreach ( $myrows as $myterms )
                                 <ul>
                                     <li>
                                         <div class="ship">
-                                           NAME :<?php echo get_user_meta($user_id, 'first_name',true);?>
+                                           NAME :<?php echo get_user_meta($post_author, 'first_name',true);?>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="ship">
-                                           ADDRESS :<?php echo get_user_meta($user_id, 'address',true);?>
+                                           ADDRESS :<?php echo get_user_meta($post_author, 'address',true);?>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="ship">
-                                           CITY :<?php echo get_user_meta($user_id, 'city',true);?>
-                                           STATE :<?php echo get_user_meta($user_id, 'state',true);?>
-                                           ZIP :<?php echo get_user_meta($user_id, 'zip',true);?>
+                                           CITY :<?php echo get_user_meta($post_author, 'city',true);?>
+                                           STATE :<?php echo get_user_meta($post_author, 'state',true);?>
+                                           ZIP :<?php echo get_user_meta($post_author, 'zip',true);?>
                                         </div>
                                     </li>
                                     <li>
@@ -89,7 +89,7 @@ foreach ( $myrows as $myterms )
                                     <li>
                                         <div class="ship">
                                            PICKED UP AT THIS LOCATION :
-											<?php echo get_user_meta($user_id, 'location',true); ?>
+											<?php echo get_user_meta($post_author, 'location',true); ?>
                                         </div>
                                     </li>
                                 </ul>

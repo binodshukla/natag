@@ -11,27 +11,33 @@ get_header();
 extract($_POST);
 if($submit == 'Register')
 {
-
 $url = get_option('siteurl');
-//$pass = md5($_POST['password']);
-$user_id = wp_insert_user( array ('user_login' => $uname, 'user_nicename' => $uname, 'first_name' => $fname, 'last_name' => $lname, 'user_email' => $email_add, 'user_pass' => $password));
-add_user_meta( $user_id, 'user_pass', $password);
-add_user_meta( $user_id, 'user_code', $access_code);
-
-$user_info = get_userdata(1);
-$to = $user_info->user_email;
-$uname = ucfirst($user_info->user_nicename);
-$subject = "New User Registration";
-$message = get_option('admin_register_farmer');
-$message = str_replace('$name',$uname,$message);
-$message = str_replace('$user_id',$user_id,$message);
-$headers = 'From: National AG';
-$headers  .= 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-$mail = mail( $to, $subject, $message, $headers);
-
-header("Location:".$url."/?page_id=553");
-
+$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->users WHERE user_email = '".$email_add."'");
+if($user_count == 0)
+{
+	//$pass = md5($_POST['password']);
+	$user_id = wp_insert_user( array ('user_login' => $uname, 'user_nicename' => $uname, 'first_name' => $fname, 'last_name' => $lname, 'user_email' => $email_add, 'user_pass' => $password));
+	add_user_meta( $user_id, 'user_pass', $password);
+	add_user_meta( $user_id, 'user_code', $access_code);
+	
+	$user_info = get_userdata(1);
+	$to = $user_info->user_email;
+	$uname = ucfirst($user_info->user_nicename);
+	$subject = "New User Registration";
+	$message = get_option('admin_register_farmer');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$user_id',$user_id,$message);
+	$headers = 'From: National AG';
+	$headers  .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$mail = mail( $to, $subject, $message, $headers);
+	
+	header("Location:".$url."/?page_id=553");
+}
+else
+{
+	header("Location:".$url."/?page_id=729");
+}
 //[register message="Registration Successful , You will receive registration confirmation soon in your email inbox"  password="yes" notify="info@digitekvision.com"]
 }
 ?>  
@@ -99,10 +105,6 @@ function validate()
 </script>
   <div id="primaryinn">
 		<div id="leftsilde">
-		<div class="cat">
-		<h3>Dashboard</h3>
-		</div>
-		<?php include("catmenu.php"); ?>
 		<div class="leftcontact">
 		<h3>Contact Us</h3>
 		<img src="<?php bloginfo('template_directory')?>/images/leftcontactimg.jpg" width="206" height="37">
@@ -216,7 +218,7 @@ function validate()
                                     </td>
                                 </tr>
                             	<tr>
-                                	<td class="equip-note"><label for="ccode">Enter Code</label><span style="color:#F00">*</span></td>
+                                	<td class="equip-note"><label for="ccode">Enter Client Code</label><span style="color:#F00">*</span></td>
                                 </tr>
                                 <tr>
                                 	<td>

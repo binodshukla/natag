@@ -55,7 +55,8 @@
 							<?php 
 							//$cat= "Featured Articles";
 							$cat_id = 6;
-							$qry = query_posts("showposts=1&cat=".$cat_id); 
+							//$qry = query_posts("showposts=1&cat=".$cat_id); 
+							$qry = query_posts("showposts=1&cat=".$cat_id."&order=DESC");
 							//$qry = query_posts("showposts=1&cat=-1"); 							
 							
 							
@@ -101,19 +102,6 @@
 								</div>
 								</div>
 								</div>
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-                                      
                                     </div>
                                
 							<?php endwhile; endif; wp_reset_query(); ?>	                                
@@ -124,9 +112,14 @@
 						<div style="clear:both;"></div>
 						<div id="main_content">	
 						
-							<div class="left_content">							
+							<div class="left_content">
+                            <?php
+							$page_about = get_post(29);
+							$about_title = $page_about->post_title;
+							$about_content = $page_about->post_content;
+							?>							
 								<div class="photo1"></div>
-								<div class="main_content_heading"><h3>Our Products</h3></div>
+								<div class="main_content_heading"><h3><?php echo $about_title?></h3></div>
 								<div class="main_content_para"><p align="justify">A Nationwide professional purchasing agency with a 40+ year record of successfully helping our clients cut costs and reap profits </p>
 								</div>
 								<a href="<?php bloginfo('url')?>/?page_id=29/"><div class="More_button"></div></a>

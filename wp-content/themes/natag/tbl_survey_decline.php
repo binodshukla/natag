@@ -18,15 +18,19 @@ if($_GET['message_id'])
 	
 	$user_id = $feedback_data[0]->user_id;
 	$user_info = get_userdata($user_id);
-	$to = get_settings('admin_email');
-	$name = ucfirst($user_info->display_name);
-	$subject = $name." declined survey";
-	$message = $name." declined the survey.";
-	
+	$admin_info = get_userdata(1);
+	$to = $admin_info->user_email;
+	$uname = ucfirst($admin_info->display_name);
+	$username = ucfirst($user_info->display_name);
+	$subject = $username." declined survey";
+	$message = get_option('admin_decline_survey');
+	$message = str_replace('$name',$uname,$message);
+	$message = str_replace('$username',$username,$message);
 	$headers = 'From: National AG';
 	$headers  .= 'MIME-Version: 1.0' . "\r\n";
 	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$mail = mail( $to, $subject, $message, $headers);
+
 }
 ?>
 <div id="primaryinn">

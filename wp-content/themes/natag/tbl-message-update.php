@@ -25,16 +25,12 @@ if($action == 'update')
 	update_option( 'farmer_admin_active', stripslashes($farmer_admin_active) );
 	elseif($email=='completing purchase order'):
 	update_option( 'farmer_complete_order', stripslashes($farmer_complete_order) );
+	elseif($email=='decline_survey'):
+	update_option( 'admin_decline_survey', stripslashes($admin_decline_survey) );
 	endif;
 	$url = get_option('siteurl');
 	header("Location:".$url."/?page_id=549&type=".$email);
 }
-/*$admin_request_from_farmer = get_option('admin_request_from_farmer');
-$farmer_admin_quote = get_option('farmer_admin_quote');
-$admin_register_farmer = get_option('admin_register_farmer');
-$farmer_admin_active = get_option('farmer_admin_active');
-$admin_farmer_generate_purchase_order = get_option('admin_farmer_generate_purchase_order');
-$farmer_complete_order = get_option('farmer_complete_order');*/
 ?>
 		<div id="primaryinn">
 		<div id="leftsilde">
@@ -103,6 +99,15 @@ $farmer_complete_order = get_option('farmer_complete_order');*/
                                 <p>
                                     <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'admin_request_from_farmer' LIMIT 1", $option ) ); $value = $row->option_value;?>
                                     <textarea class="ckeditor" name="admin_request_from_farmer" id="admin_request_from_farmer" style="width: 100%;"><?php echo $value; ?></textarea>
+                                    <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
+                                </p>
+                            <?php elseif($_REQUEST['type']=='decline_survey'):?>
+                                <p>
+                                    Email template for Decline Survey.
+                                </p>
+                                <p>
+                                    <?php $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'admin_decline_survey' LIMIT 1", $option ) ); $value = $row->option_value;?>
+                                    <textarea class="ckeditor" name="admin_decline_survey" id="admin_decline_survey" style="width: 100%;"><?php echo $value; ?></textarea>
                                     <input type="hidden" name="email" value="<?php echo $_REQUEST['type']?>" />
                                 </p>
                             <?php elseif($_REQUEST['type']=='new user registration'):?>    

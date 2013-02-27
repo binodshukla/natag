@@ -845,6 +845,10 @@ margin-top:50px;
 {
 	background: url("images/bottom_twitter.png");
 }
+#bottom_social_area  a.bottom_google
+{
+	background: url("images/bottom_google.png");
+}
 
 #bottom_social_area  a.bottom_vimeo
 {

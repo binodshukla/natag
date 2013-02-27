@@ -258,7 +258,7 @@ if($submit == 'Send')
 			<div>
             <div>
 				<div style="float:left;width: 184px; text-align:left;">
-				My best local price$   
+				Client's price$   
 				</div>
 				<div style="width:413px; float:left;text-align:right;">
 					<input type="text"  name="best_price" value="<?php echo get_post_meta($id,'best_price',true); ?>" style="width: 412px">

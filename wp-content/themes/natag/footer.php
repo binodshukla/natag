@@ -106,10 +106,42 @@
 				</div>
 				
 				<div id="bottom_social_area">
-					<a href="#" class="bottom_facebook" title="Facebook"></a>
-					<a href="#" class="bottom_twitter" title="Twitter"></a>
-					<a href="#" class="bottom_vimeo" title="Vimeo"></a>
-					<a href="#" class="bottom_linked" title="Linked In"></a>
+                	<?php
+					if(get_option('youtube_url'))
+					{
+					?>
+                    	<a href="<?php echo get_option('youtube_url'); ?>" target="_blank" class="bottom_vimeo" title="Vimeo"></a>
+                    <?php
+					}
+					if(get_option('linkedin_url'))
+					{
+					?>
+                    	<a href="<?php echo get_option('linkedin_url'); ?>" target="_blank" class="bottom_linked" title="Linked In"></a>
+                    <?php
+					}
+					if(get_option('facebook_url'))
+					{
+					?>
+                    	<a href="<?php echo get_option('facebook_url'); ?>" class="bottom_facebook" title="Facebook" target="_blank"></a>
+                    <?php
+					}
+					if(get_option('twitter_url'))
+					{
+					?>
+                    	<a href="<?php echo get_option('twitter_url'); ?>" class="bottom_twitter" title="Twitter" target="_blank"></a>
+                    <?php
+					}
+					if(get_option('googleplus_url'))
+					{
+					?>
+                    	<a href="<?php echo get_option('googleplus_url'); ?>" class="bottom_google" title="Google" target="_blank"></a>
+                    <?php
+					}
+					?>
+					
+					
+					
+					
 				</div>
 				<div style="clear:both;"></div>		
 			</div>

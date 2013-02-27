@@ -1,10 +1,9 @@
 <?php
 ob_start();
 /**
- *
  * @package WordPress
  * @subpackage natag
- * Template Name:Former Portal
+ * Template Name:Dashboard
  */
 
 get_header();
@@ -206,14 +205,15 @@ endif;
                                 </div>
                                  <div id="inline_demo3" style="display:none;">
                                  <p>
-                                 	<a href="<?php echo get_option('siteurl')?>/?page_id=549&type=request for estimation">Email template for request for estimation</a><br />
+                                 	<a href="<?php echo get_option('siteurl')?>/?page_id=549&type=request for estimation">Email template for request for price</a><br />
                                     <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=new user registration">Email template for new user registration</a><br />
                                     <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=generating purchase order">Email template on generating purchase order</a><br />
+                                    <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=decline_survey">Email template on Decline Survey</a><br />
                                  </p>
                                  </div>
                                  <div id="inline_demo4" style="display:none;">
                                  <p>
-                                 	<a href="<?php echo get_option('siteurl')?>/?page_id=549&type=quote is ready">Email template for request for estimation</a><br />
+                                 	<a href="<?php echo get_option('siteurl')?>/?page_id=549&type=quote is ready">Email template for request for price</a><br />
                                     <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=user activation">Email template for new user registration</a><br />
                                     <a href="<?php echo get_option('siteurl')?>/?page_id=549&type=completing purchase order">Email template on order placed</a><br />
                                  </p>
@@ -230,7 +230,7 @@ endif;
                                     <li><a href="#inline_demo3" rel="prettyPhoto[inline]">Notification Settings</a></li>
                                 </ul>
                                 <div id="inline_demo" style="display:none;">
-                                    <p>Request for Estimate:</p>
+                                    <p>Request for Price:</p>
                                     <p>
                                         <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=354">Equipment</a><br />
                                         <a class="menuitem" href="<?php echo get_option('siteurl');?>/?page_id=356">Fertilizers/Chemical</a><br />
