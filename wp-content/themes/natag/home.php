@@ -77,7 +77,7 @@ global $wpdb;
                                 <h3><?php echo $myabout->post_title;?></h3>
                             </div>
                             <div class="main_content_para">
-                                <p align="justify"><?php echo substr(strip_tags($myabout->post_content),0,120);?></p>
+                                <p align="justify"><?php echo $myabout->post_excerpt;?></p>
                             	<a href="<?php bloginfo('url')?>/?page_id=29"><div class="More_button"></div></a>
                             </div>
                         </div>
@@ -95,7 +95,7 @@ global $wpdb;
                                 <h3><?php echo $myabout->post_title;?></h3>
                             </div>
                             <div class="main_content_para">
-                                <p align="justify"><?php echo substr(strip_tags($myabout->post_content),0,146);?> </p>
+                                <p align="justify"><?php echo $myabout->post_excerpt;?> </p>
                            		<a href="<?php bloginfo('url')?>/?page_id=8"><div class="More_button"></div></a>
                             </div>
                         </div>											
@@ -112,7 +112,7 @@ global $wpdb;
                                 <h3><?php echo $myabout->post_title;?></h3>
                             </div>
                             <div class="main_content_para">
-                                <p align="justify"><?php echo substr(strip_tags($myabout->post_content),0,150);?></p>
+                                <p align="justify"><?php echo $myabout->post_excerpt;?></p>
                             </div>
                             <div style="clear:both;"></div>
                             <a href="<?php bloginfo('url')?>/?page_id=157"><div class="More_button margintop"></div></a>
@@ -126,7 +126,7 @@ global $wpdb;
                                 <h3><?php echo $myabout->post_title;?></h3>
                             </div>
                             <div class="main_content_para agri">
-                                <p align="justify"><?php echo substr(strip_tags($myabout->post_content),0,148);?></p>
+                                <p align="justify"><?php echo $myabout->post_excerpt;?></p>
                             </div>
                             <div style="clear:both;"></div>
                             <a href="<?php bloginfo('url')?>/?page_id=159"><div class="More_button"></div></a>

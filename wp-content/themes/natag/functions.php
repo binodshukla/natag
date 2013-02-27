@@ -657,3 +657,10 @@ $content.= " " . $more_link_text . "";
 }
 echo $content;
 }
+
+//Add Excerpts to Pages
+add_action('init', 'wp_add_page_excerpt_support');
+
+function wp_add_page_excerpt_support() {
+	add_post_type_support( 'page', 'excerpt' );
+}
