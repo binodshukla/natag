@@ -153,7 +153,7 @@ if($_REQUEST['submit'] == 'Order Placed')
                                <?php if ( is_user_logged_in() ) {
 								   
 							   ?>
-			<form name="home" action="<?php echo get_option('siteurl')?>/?page_id=<?php echo $_REQUEST['page_id']?>" method="post">
+			<form name="home" action="" method="post">
             <table border="0" cellpadding="0px" width="100%" align="center" cellspacing="0">
 			<tr>
             <td colspan="8" align="right">
@@ -257,7 +257,7 @@ if($_REQUEST['submit'] == 'Order Placed')
 					<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=540&post_id=<?php echo $id?>')" >Print</a>&nbsp;
                     <input type="hidden" name="post_id" value="<?php echo $id?>" /> 
 				<?php if($user_level == 10) {?>
-                    <input type="button" name="submit" onclick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=544&post_id=<?php echo $id?>&submit=Complete'" class="form-button" value="Order Placed" />
+                    <input type="button" name="submit" onclick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=544&post_id=<?php echo $id?>&submit=Order Placed'" class="form-button" value="Order Placed" />
                 <?php }?>
                 </td>
             </tr>

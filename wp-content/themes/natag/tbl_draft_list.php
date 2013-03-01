@@ -252,7 +252,7 @@ get_header();
 						if($post_status == 'publish')
 						{
 					?>
-                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <!--<input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">-->
                     <?php
 						}
 					}
@@ -420,7 +420,7 @@ get_header();
 						if($post_status == 'publish')
 						{
 					?>
-                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <!--<input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">-->
                     <?php
 						}
 					}
@@ -595,7 +595,7 @@ get_header();
 						if($post_status == 'publish')
 						{
 					?>
-                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <!--<input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">-->
                     <?php
 						}
 					}
@@ -770,7 +770,7 @@ get_header();
 						if($post_status == 'publish')
 						{
 					?>
-                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                    <!--<input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">-->
                     <?php
 						}
 					}
@@ -944,7 +944,7 @@ get_header();
 						if($post_status == 'publish')
 						{
 					?>
-                    <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">
+                   <!-- <input type="button" class="form-button" name="button" onClick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=494&post_id=<?php echo $id?>'" value="Generate Purchase Order">-->
                     <?php
 						}
 					}
