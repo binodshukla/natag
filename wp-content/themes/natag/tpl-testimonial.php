@@ -13,13 +13,8 @@ global $wpdb;
 		<div id="leftsilde">
 		<?php //include("catmenu.php"); ?>
 		<?php //dynamic_sidebar('Inner Page Sidebar'); ?>
-		 <!--Start Event widget-->
-		 <?php  $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-							query_posts("cat=8&post_type=post&paged=$paged&showposts=5");	?>
-              <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-		      
-		        <?php endwhile; endif;   ?>	 
-				<?php dynamic_sidebar('Natag Upcoming Events'); ?>
+		 <!--Start Event widget--> 
+				<?php //dynamic_sidebar('Natag Upcoming Events'); ?>
 	         <!--End Event widget-->
 		<?php //wp_list_categories('hierarchical' => true,); ?>
 		<div class="leftcontact">

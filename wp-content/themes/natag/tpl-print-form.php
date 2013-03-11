@@ -151,6 +151,13 @@ ob_start();
 		</div><!-- #primary -->
         <script>
 			window.print();
+		</script>	
+        <?php 
+		if($post_status == 'orderrecieved' && $user_level == 10):
+		wp_delete_post($_REQUEST['post_id']);
+		endif;
+		?>
+        <script>
 			window.close();
 		</script>
 		<?php
@@ -257,6 +264,13 @@ ob_start();
 		</div>
         <script>
 			window.print();
+		</script>	
+        <?php 
+		if($post_status == 'orderrecieved' && $user_level == 10):
+		wp_delete_post($_REQUEST['post_id']);
+		endif;
+		?>
+        <script>
 			window.close();
 		</script>
         <?php
@@ -338,6 +352,13 @@ ob_start();
 		</div>        
         <script>
 			window.print();
+		</script>	
+        <?php 
+		if($post_status == 'orderrecieved' && $user_level == 10):
+		wp_delete_post($_REQUEST['post_id']);
+		endif;
+		?>
+        <script>
 			window.close();
 		</script>
 		<?php
@@ -441,6 +462,13 @@ ob_start();
 		</div>
         <script>
 			window.print();
+		</script>	
+        <?php 
+		if($post_status == 'orderrecieved' && $user_level == 10):
+		wp_delete_post($_REQUEST['post_id']);
+		endif;
+		?>
+        <script>
 			window.close();
 		</script>
 		<?php
@@ -555,7 +583,14 @@ ob_start();
 		</div>
         <script>
 			window.print();
-			//window.close();
+		</script>	
+        <?php 
+		if($post_status == 'orderrecieved' && $user_level == 10):
+		wp_delete_post($_REQUEST['post_id']);
+		endif;
+		?>
+        <script>
+			window.close();
 		</script>
         <?php	
 			endif;

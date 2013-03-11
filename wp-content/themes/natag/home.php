@@ -107,9 +107,9 @@ global $wpdb;
             <div style="border:1px solid #d7d7d7;margin-top:20px;"></div>
             <div style="clear:both;"></div>
             <div id="bottom_content">	
-                <!--<div class="bottom_content_1">	
+                <div class="bottom_content_1">	
                 <?php
-                $myabout = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = 157");
+                $myabout = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = 766");
                 ?>
                     <div class="bottom_heading">
                         <h3><?php echo $myabout->post_title;?></h3>
@@ -118,9 +118,9 @@ global $wpdb;
                         <p align="justify"><?php echo $myabout->post_excerpt;?></p>
                     </div>
                     <div style="clear:both;"></div>
-                    <a href="<?php bloginfo('url')?>/?page_id=157"><div class="More_button margintop"></div></a>
+                    <a href="<?php bloginfo('url')?>/?page_id=766"><div class="More_button margintop"></div></a>
                     <div style="clear:both;"></div>
-                </div>-->
+                </div>
                 <div class="bottom_content_2">	
                 <?php
                 $myabout = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = 159");

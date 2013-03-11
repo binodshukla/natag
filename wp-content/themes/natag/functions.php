@@ -664,3 +664,17 @@ add_action('init', 'wp_add_page_excerpt_support');
 function wp_add_page_excerpt_support() {
 	add_post_type_support( 'page', 'excerpt' );
 }
+
+function remove_page_from_query_string($query_string)
+{
+	if ($query_string['name'] == 'page' && isset($query_string['page'])) {
+		$post_type = $query_string['post_type'];
+		list($delim, $page_index) = split('/', $query_string['page']);
+		$query_string = array();
+		$query_string['pagename'] = $post_type;
+		$query_string['paged'] = $page_index;
+	}
+	return $query_string;
+}
+
+add_filter('request', 'remove_page_from_query_string');

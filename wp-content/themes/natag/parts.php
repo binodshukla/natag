@@ -312,6 +312,15 @@ function confirmSubmit()
 			<div style="text-align:left;clear:both;">
 				<strong>For official use only:</strong></div>
 
+            <div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Note 
+				</div>
+				<div style="width:336px; float:left;" class="auto-style2">
+                <textarea name="admin_note" readonly="readonly" style="width: 410px; height: 67px"></textarea>
+                </div>
+			</div>
+
 			<div>
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 

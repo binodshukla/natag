@@ -217,7 +217,7 @@ width:204px;
 {
 	background: url("images/member_login.png");	
 	width:156px;
-	height:35px;
+	height:32px;
 	float:left;
 }
 #social_area  .member_join
@@ -459,24 +459,12 @@ ul#menu li a.last {
 	padding-left:68px;
 	padding-right:68px;
 	padding-top:20px;
-	color:#08639a;
 	height:30px;
-
-	text-decoration:none;
-	display:inline-block;
-	border-left:1px solid #b2b2b2;
-}
-*#menu ul li a {
-	padding-left:68px;
-	padding-right:68px;
-	padding-top:20px;
 	color:#08639a;
-	height:50px;
 	text-decoration:none;
 	display:inline-block;
 	border-left:1px solid #b2b2b2;
 }
-
 #menu ul li a:hover {
 	background: #dddddd; /* Old browsers */
 	background: -moz-linear-gradient(top,  #dddddd 0%, #eaeaea 46%, #f6f6f6 100%); /* FF3.6+ */
@@ -855,8 +843,8 @@ margin-top:50px;
 .bottom_content_2
 {
 
-	/*width:320px;*/
-	width:480px;
+	width:320px;
+	/*width:480px;*/
 	float:left;
 	border-right:1px solid #857f7f;
 	/*border-left:1px solid #fff;*/
@@ -865,7 +853,7 @@ margin-top:50px;
 }
 .bottom_content_3
 {
-   width:460px;
+   	width:320px;
 	float:left;
 	border-left:1px solid #fff;
 	padding-left:18px;
@@ -1181,7 +1169,7 @@ margin:5px 0 10px 0;font-family:arial;color:#736e6e;font-size:12px;text-align:ju
 .leftconpage p{font-size:16px;}
 .contactusformleft { width:300px;float:left;}
 .contactusformright { width:330px;float:right;}
-.leftcontact {margin-top:30px;padding-top:20px;width: 250px;border-top:2px dotted #CCC;}
+.leftcontact {margin-top:30px;padding-top:20px;width: 250px;/*border-top:2px dotted #CCC;*/}
 .leftcontact img{padding:5px;margin:0px 3px 10px 3px;background-color:#C2B7B7;}
 .leftcontact h3{ font-size:28px;color:#08639A;font-family:Arial, Helvetica, sans-serif; padding:0 0 15px 0;}
 .conformstyle {width:300px;}

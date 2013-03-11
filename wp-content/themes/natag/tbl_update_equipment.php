@@ -18,8 +18,10 @@ if($submit == 'Send')
 	$my_post['post_title']    = $fname;
 	$my_post['post_name']    = $fname;
 	$my_post['post_content']  = $descpt;
+	if($national_price != '')
+	{
 	$my_post['post_status']   = 'publish';
-
+	}
 	// update the post into the database
 	$up_post = wp_update_post( $my_post );
 
@@ -40,31 +42,37 @@ if($submit == 'Send')
 	update_post_meta($post_id, 'price_quote', $national_price); 
 	update_post_meta($post_id, 'saved_offer', $saved_offer); 
 	update_post_meta($post_id, 'add_info', $add_info);
+	if($national_price != '')
+	{
 	update_post_meta($post_id, 'request_status', 'completed');
+	}
 	update_post_meta($post_id, 'freight', $freight);
 	
 	$email_not = get_user_meta($_REQUEST['user_id'], "email_not", true);
 	$sms_not = get_user_meta($_REQUEST['user_id'], "sms_not", true);
 	$no_not = get_user_meta($_REQUEST['user_id'], "no_not", true);
-	if($no_not == '')
+	if($national_price != '')
 	{
-		if($email_not == 'Email')
+		if($no_not == '')
 		{
-			$user_info = get_userdata($_REQUEST['user_id']);
-			$to = $user_info->user_email;
-			$uname = ucfirst($user_info->user_nicename);
-			$subject = "Equipment Quote Request Completed";
-			$message = get_option('farmer_admin_quote');
-			$message = str_replace('$name',$uname,$message);
-			$message = str_replace('$requestname','Equipment',$message);
-			$headers = 'From: National AG';
-			$headers  .= 'MIME-Version: 1.0' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$mail = mail( $to, $subject, $message, $headers);
-		}
-		if($sms_not == 'SMS')
-		{
-			
+			if($email_not == 'Email')
+			{
+				$user_info = get_userdata($_REQUEST['user_id']);
+				$to = $user_info->user_email;
+				$uname = ucfirst($user_info->user_nicename);
+				$subject = "Equipment Quote Request Completed";
+				$message = get_option('farmer_admin_quote');
+				$message = str_replace('$name',$uname,$message);
+				$message = str_replace('$requestname','Equipment',$message);
+				$headers = 'From: National AG';
+				$headers  .= 'MIME-Version: 1.0' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$mail = mail( $to, $subject, $message, $headers);
+			}
+			if($sms_not == 'SMS')
+			{
+				
+			}
 		}
 	}
 	
@@ -258,6 +266,15 @@ if($submit == 'Send')
             </div>
 
 			<div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Note 
+				</div>
+				<div style="width:336px; float:left;" class="auto-style2">
+					<textarea name="admin_note" style="width: 410px; height: 67px"><?php echo get_post_meta($id,'admin_note',true); ?></textarea>
+				</div>
+			</div>
+            
+            <div>
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
 				</div>

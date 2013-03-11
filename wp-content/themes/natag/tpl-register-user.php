@@ -12,11 +12,12 @@ extract($_POST);
 if($submit == 'Register')
 {
 $url = get_option('siteurl');
-$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->users WHERE user_email = '".$email_add."'");
+$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->users WHERE user_email = '".$email_add."' or user_login = '".$_POST['uname']."'");
 if($user_count == 0)
 {
-	//$pass = md5($_POST['password']);
-	$user_id = wp_insert_user( array ('user_login' => $uname, 'user_nicename' => $uname, 'first_name' => $fname, 'last_name' => $lname, 'user_email' => $email_add, 'user_pass' => $password));
+	//$pass = wp_hash_password($_POST['password']);
+	$user = array ('user_login' => $_POST['uname'], 'user_nicename' => $_POST['uname'], 'first_name' => $_POST['fname'], 'last_name' => $_POST['lname'], 'user_email' => $_POST['email_add'], 'user_pass' => $_POST['password']);
+	$user_id = wp_insert_user($user);
 	add_user_meta( $user_id, 'user_pass', $password);
 	add_user_meta( $user_id, 'user_code', $access_code);
 	
@@ -26,7 +27,7 @@ if($user_count == 0)
 	$subject = "New User Registration";
 	$message = get_option('admin_register_farmer');
 	$message = str_replace('$name',$uname,$message);
-	$message = str_replace('$user_id',$user_id,$message);
+	//echo $message = str_replace('$user_id',$user_id,$message);
 	$headers = 'From: National AG';
 	$headers  .= 'MIME-Version: 1.0' . "\r\n";
 	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

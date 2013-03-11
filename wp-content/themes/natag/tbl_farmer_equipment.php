@@ -290,6 +290,15 @@ elseif($submit == "Generate Purchase Order")
 				<strong>For official use only:</strong>
             </div>
 
+            <div>
+				<div style="float:left;width: 203px; text-align:left;">
+				Note 
+				</div>
+				<div style="width:336px; float:left;" class="auto-style2">
+                <textarea name="admin_note" readonly="readonly" style="width: 410px; height: 67px"><?php echo get_post_meta($id,'admin_note',true); ?></textarea>
+                </div>
+			</div>
+
 			<div>
 				<div style="float:left;width: 203px; text-align:left;">
 				National Ag Price Quote $ 
@@ -354,7 +363,7 @@ elseif($submit == "Generate Purchase Order")
                 <div class="customer_address">
                     <ul>
                         <li>
-                            <input type="checkbox" name="terms" required="required" value="1" />
+                            <input type="checkbox" name="terms" value="1" />
                             By checking this box you agree to the 
                             <a href="<?php bloginfo('url')?>/?page_id=731/">Terms and conditions</a>
                         </li>

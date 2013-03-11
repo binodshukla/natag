@@ -249,7 +249,9 @@ foreach ( $myrows as $myterms )
                                         </select> -->
                                         <input type="text" size="2" readonly="readonly" value="<?php echo trim(get_post_meta($id,'quantity',true));?>" name="quantity" />
                                     </li>
-                                    <li class="second"><?php echo ucfirst($post_type);?></li>
+                                    <li class="second">
+										<?php echo ucfirst($post_type);?>
+                                    </li>
                                     <li class="third"><input type="text" name="quote_price"  readonly="readonly" value="<?php echo get_post_meta($id,'price_quote',true);?>" size=20 /></li>
                                     <li class="fourth last" id="total_price"><input type="text" name="subtotal_price"  readonly="readonly" value="<?php echo $subtotal_price?>" size=20 /></li>
                                 </ul>

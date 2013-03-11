@@ -154,6 +154,13 @@ foreach ( $myrows as $myterms )
         <!-- #primary -->
         <script>
 			window.print();
+		</script>	
+        <?php 
+		if($post_status == 'orderrecieved' && $user_level == 10):
+		wp_delete_post($_REQUEST['post_id']);
+		endif;
+		?>
+        <script>
 			window.close();
 		</script>
 <?php } ?>

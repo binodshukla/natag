@@ -18,6 +18,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta charset="utf-8">
 <title><?php if (is_home()) {
 

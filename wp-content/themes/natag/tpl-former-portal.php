@@ -292,7 +292,7 @@ endif;
 								?>
                                     	<a href="<?php echo get_option('siteurl');?>/?page_id=455&type=fertilizer">Fertilizers/Chemical</a>
                                         &nbsp;(<?php echo $numdraft_fert?>&nbsp;Draft/<?php echo $numsent_fert?>Sent/<?php echo $numpublish_fert?>&nbsp;Quote Ready)<br />
-								<?php
+<!--								<?php
 											$numdraft_chem = 0;
 											$numsent_chem = 0;
 											$numpublish_chem = 0;
@@ -317,7 +317,7 @@ endif;
 								?>
                                     	<a href="<?php echo get_option('siteurl');?>/?page_id=455&type=chemical">Chemical</a>
                                         &nbsp;(<?php echo $numdraft_chem?>&nbsp;Draft/<?php echo $numsent_chem?>Sent/<?php echo $numpublish_chem?>&nbsp;Quote Ready)<br />
-								<?php
+-->								<?php
 											$numdraft_parts = 0;
 											$numsent_parts = 0;
 											$numpublish_parts = 0;

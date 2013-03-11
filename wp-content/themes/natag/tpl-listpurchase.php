@@ -254,7 +254,7 @@ if($_REQUEST['submit'] == 'Order Placed')
 					<?php echo get_post_meta($id,'purchase_date',true); ?>
                 </td>
             	<td align="left" class="listtdlast">
-					<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=540&post_id=<?php echo $id?>')" >Print</a>&nbsp;
+					<a href="JavaScript:newPopup('<?php echo get_option('siteurl')?>/?page_id=540&post_id=<?php echo $id?>')">Print</a>&nbsp;
                     <input type="hidden" name="post_id" value="<?php echo $id?>" /> 
 				<?php if($user_level == 10) {?>
                     <input type="button" name="submit" onclick="javascript:location.href='<?php echo get_option('siteurl')?>/?page_id=544&post_id=<?php echo $id?>&submit=Order Placed'" class="form-button" value="Order Placed" />

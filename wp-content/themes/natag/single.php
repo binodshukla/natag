@@ -19,7 +19,7 @@ get_header(); ?>
               <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 		      
 		        <?php endwhile; endif;   ?>	 
-				<?php dynamic_sidebar('Natag Upcoming Events'); ?>
+				<?php //dynamic_sidebar('Natag Upcoming Events'); ?>
 	         <!--End Event widget-->
 		
 		<div class="leftcontact">
